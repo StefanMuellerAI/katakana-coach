@@ -67,7 +67,7 @@ function loadQuestion() {
             data.options.forEach((option, index) => {
                 const button = document.createElement('button');
                 button.innerHTML = `<span class="text-3xl">${option}</span><span class="sr-only">${index + 1}</span>`;
-                button.className = 'flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded text-center';
+                button.className = 'flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded text-center';
                 button.onclick = () => checkAnswer(option);
                 optionsContainer.appendChild(button);
             });
