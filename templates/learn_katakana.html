@@ -1,0 +1,132 @@
+{% extends "layout.html" %}
+
+{% block title %}Katakana Lernen{% endblock %}
+
+{% block content %}
+<audio id="correctSound" src="/static/quiz_correct_answer.mp3"></audio>
+
+<div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+    <div class="p-8">
+        <h2 class="text-2xl font-semibold mb-4">Das weißt du bestimmt!?</h2>
+        <div id="question-container">
+            <p id="question-type" class="text-gray-600 mb-4"></p>
+            <p id="question" class="text-4xl font-bold text-center mb-6"></p>
+            <div id="options" class="flex justify-between space-x-2 mb-4"></div>
+        </div>
+        <div id="result-container" class="mb-6 hidden">
+            <p id="result-text" class="text-xl font-bold text-center mb-4"></p>
+            <p id="correct-answer" class="text-gray-600 text-center"></p>
+            <p id="example" class="text-gray-600 text-center mt-2"></p>
+        </div>
+        <div class="mt-6 space-y-2">
+            <button id="next-question" class="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                Nächste Frage
+            </button>
+        </div>
+        <div class="mt-6">
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                data-ad-slot="XXXXXXXXXX"
+                data-ad-format="auto"></ins>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentQuestion = null;
+
+function playCorrectSound() {
+    const audio = document.getElementById('correctSound');
+    audio.play();
+}
+
+function loadQuestion() {
+    fetch('/get_question')
+        .then(response => response.json())
+        .then(data => {
+            currentQuestion = data;
+            const questionType = document.getElementById('question-type');
+            switch(data.mode) {
+                case 'katakana_to_romanji':
+                    questionType.textContent = "Wie lautet das Romanji für:";
+                    break;
+                case 'romanji_to_katakana':
+                    questionType.textContent = "Wie lautet das Katakana für:";
+                    break;
+                case 'katakana_to_hiragana':
+                    questionType.textContent = "Wie lautet das Hiragana für:";
+                    break;
+                case 'hiragana_to_katakana':
+                    questionType.textContent = "Wie lautet das Katakana für:";
+                    break;
+            }
+            document.getElementById('question').textContent = data.question;
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            data.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.innerHTML = `<span class="text-3xl">${option}</span><span class="sr-only">${index + 1}</span>`;
+                button.className = 'flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded text-center';
+                button.onclick = () => checkAnswer(option);
+                optionsContainer.appendChild(button);
+            });
+            document.getElementById('question-container').classList.remove('hidden');
+            document.getElementById('result-container').classList.add('hidden');
+
+            // Reload AdSense ad
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        });
+}
+
+function checkAnswer(answer) {
+    const isCorrect = answer === currentQuestion.correct_answer;
+
+    const resultText = document.getElementById('result-text');
+    const correctAnswer = document.getElementById('correct-answer');
+    const example = document.getElementById('example');
+
+    if (isCorrect) {
+        resultText.textContent = 'Richtig! Gut gemacht!';
+        resultText.className = 'text-green-600 font-bold text-xl mb-4';
+        correctAnswer.textContent = '';
+        playCorrectSound();
+    } else {
+        resultText.textContent = 'Leider falsch.';
+        resultText.className = 'text-red-600 font-bold text-xl mb-2';
+        correctAnswer.textContent = `Die richtige Antwort ist: ${currentQuestion.correct_answer}`;
+    }
+
+    example.textContent = `Beispiel: ${currentQuestion.example}`;
+
+    document.getElementById('question-container').classList.add('hidden');
+    document.getElementById('result-container').classList.remove('hidden');
+}
+
+document.getElementById('next-question').addEventListener('click', loadQuestion);
+
+document.addEventListener('keydown', function(event) {
+    if (event.key >= '1' && event.key <= '3') {
+        const index = parseInt(event.key) - 1;
+        const options = document.querySelectorAll('#options button');
+        if (index < options.length) {
+            options[index].click();
+        }
+    } else if (event.key === 'Enter') {
+        if (document.getElementById('result-container').classList.contains('hidden')) {
+            // Wenn das Ergebnis nicht angezeigt wird, wähle die erste Option aus
+            const firstOption = document.querySelector('#options button');
+            if (firstOption) {
+                firstOption.click();
+            }
+        } else {
+            // Wenn das Ergebnis angezeigt wird, lade die nächste Frage
+            loadQuestion();
+        }
+    }
+});
+
+// Load the first question when the page loads
+loadQuestion();
+</script>
+{% endblock %}

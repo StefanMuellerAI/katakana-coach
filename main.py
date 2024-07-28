@@ -1,0 +1,186 @@
+from flask import Flask, render_template, jsonify, send_from_directory
+import os
+import random
+
+app = Flask(__name__, static_folder='static')
+
+japanese_dict = {
+'ア': {'hiragana': 'あ', 'romanji': 'a', 'example': 'アイス (aisu, Eis)'},
+'イ': {'hiragana': 'い', 'romanji': 'i', 'example': 'イチゴ (ichigo, Erdbeere)'},
+'ウ': {'hiragana': 'う', 'romanji': 'u', 'example': 'ウサギ (usagi, Hase)'},
+'エ': {'hiragana': 'え', 'romanji': 'e', 'example': 'エレベーター (erebētā, Aufzug)'},
+'オ': {'hiragana': 'お', 'romanji': 'o', 'example': 'オレンジ (orenji, Orange)'},
+'カ': {'hiragana': 'か', 'romanji': 'ka', 'example': 'カメラ (kamera, Kamera)'},
+'キ': {'hiragana': 'き', 'romanji': 'ki', 'example': 'キツネ (kitsune, Fuchs)'},
+'ク': {'hiragana': 'く', 'romanji': 'ku', 'example': 'クッキー (kukkī, Keks)'},
+'ケ': {'hiragana': 'け', 'romanji': 'ke', 'example': 'ケーキ (kēki, Kuchen)'},
+'コ': {'hiragana': 'こ', 'romanji': 'ko', 'example': 'コーヒー (kōhī, Kaffee)'},
+'サ': {'hiragana': 'さ', 'romanji': 'sa', 'example': 'サッカー (sakkā, Fußball)'},
+'シ': {'hiragana': 'し', 'romanji': 'shi', 'example': 'シャツ (shatsu, Hemd)'},
+'ス': {'hiragana': 'す', 'romanji': 'su', 'example': 'スシ (sushi, Sushi)'},
+'セ': {'hiragana': 'せ', 'romanji': 'se', 'example': 'セーター (sētā, Pullover)'},
+'ソ': {'hiragana': 'そ', 'romanji': 'so', 'example': 'ソファ (sofa, Sofa)'},
+'タ': {'hiragana': 'た', 'romanji': 'ta', 'example': 'タクシー (takushī, Taxi)'},
+'チ': {'hiragana': 'ち', 'romanji': 'chi', 'example': 'チーズ (chīzu, Käse)'},
+'ツ': {'hiragana': 'つ', 'romanji': 'tsu', 'example': 'ツリー (tsurī, Baum)'},
+'テ': {'hiragana': 'て', 'romanji': 'te', 'example': 'テレビ (terebi, Fernseher)'},
+'ト': {'hiragana': 'と', 'romanji': 'to', 'example': 'トマト (tomato, Tomate)'},
+'ナ': {'hiragana': 'な', 'romanji': 'na', 'example': 'ナイフ (naifu, Messer)'},
+'ニ': {'hiragana': 'に', 'romanji': 'ni', 'example': 'ニュース (nyūsu, Nachrichten)'},
+'ヌ': {'hiragana': 'ぬ', 'romanji': 'nu', 'example': 'ヌードル (nūdoru, Nudeln)'},
+'ネ': {'hiragana': 'ね', 'romanji': 'ne', 'example': 'ネコ (neko, Katze)'},
+'ノ': {'hiragana': 'の', 'romanji': 'no', 'example': 'ノート (nōto, Notizbuch)'},
+'ハ': {'hiragana': 'は', 'romanji': 'ha', 'example': 'ハンバーガー (hanbāgā, Hamburger)'},
+'ヒ': {'hiragana': 'ひ', 'romanji': 'hi', 'example': 'ヒマワリ (himawari, Sonnenblume)'},
+'フ': {'hiragana': 'ふ', 'romanji': 'fu', 'example': 'フルーツ (furūtsu, Obst)'},
+'ヘ': {'hiragana': 'へ', 'romanji': 'he', 'example': 'ヘリコプター (herikoputā, Hubschrauber)'},
+'ホ': {'hiragana': 'ほ', 'romanji': 'ho', 'example': 'ホテル (hoteru, Hotel)'},
+'マ': {'hiragana': 'ま', 'romanji': 'ma', 'example': 'マンゴー (mangō, Mango)'},
+'ミ': {'hiragana': 'み', 'romanji': 'mi', 'example': 'ミルク (miruku, Milch)'},
+'ム': {'hiragana': 'む', 'romanji': 'mu', 'example': 'ムシ (mushi, Insekt)'},
+'メ': {'hiragana': 'め', 'romanji': 'me', 'example': 'メガネ (megane, Brille)'},
+'モ': {'hiragana': 'も', 'romanji': 'mo', 'example': 'モモ (momo, Pfirsich)'},
+'ヤ': {'hiragana': 'や', 'romanji': 'ya', 'example': 'ヤキソバ (yakisoba, gebratene Nudeln)'},
+'ユ': {'hiragana': 'ゆ', 'romanji': 'yu', 'example': 'ユキ (yuki, Schnee)'},
+'ヨ': {'hiragana': 'よ', 'romanji': 'yo', 'example': 'ヨーグルト (yōguruto, Joghurt)'},
+'ラ': {'hiragana': 'ら', 'romanji': 'ra', 'example': 'ラジオ (rajio, Radio)'},
+'リ': {'hiragana': 'り', 'romanji': 'ri', 'example': 'リンゴ (ringo, Apfel)'},
+'ル': {'hiragana': 'る', 'romanji': 'ru', 'example': 'ルビー (rubī, Rubin)'},
+'レ': {'hiragana': 'れ', 'romanji': 're', 'example': 'レモン (remon, Zitrone)'},
+'ロ': {'hiragana': 'ろ', 'romanji': 'ro', 'example': 'ロボット (robotto, Roboter)'},
+'ワ': {'hiragana': 'わ', 'romanji': 'wa', 'example': 'ワイン (wain, Wein)'},
+'ヲ': {'hiragana': 'を', 'romanji': 'wo', 'example': 'ヲタク (wotaku, Otaku)'},
+'ン': {'hiragana': 'ん', 'romanji': 'n', 'example': 'パン (pan, Brot)'},
+'ガ': {'hiragana': 'が', 'romanji': 'ga', 'example': 'ガム (gamu, Kaugummi)'},
+'ギ': {'hiragana': 'ぎ', 'romanji': 'gi', 'example': 'ギター (gitā, Gitarre)'},
+'グ': {'hiragana': 'ぐ', 'romanji': 'gu', 'example': 'グラス (gurasu, Glas)'},
+'ゲ': {'hiragana': 'げ', 'romanji': 'ge', 'example': 'ゲーム (gēmu, Spiel)'},
+'ゴ': {'hiragana': 'ご', 'romanji': 'go', 'example': 'ゴリラ (gorira, Gorilla)'},
+'ザ': {'hiragana': 'ざ', 'romanji': 'za', 'example': 'ザリガニ (zarigani, Flusskrebs)'},
+'ジ': {'hiragana': 'じ', 'romanji': 'ji', 'example': 'ジュース (jūsu, Saft)'},
+'ズ': {'hiragana': 'ず', 'romanji': 'zu', 'example': 'ズボン (zubon, Hose)'},
+'ゼ': {'hiragana': 'ぜ', 'romanji': 'ze', 'example': 'ゼリー (zerī, Gelee)'},
+'ゾ': {'hiragana': 'ぞ', 'romanji': 'zo', 'example': 'ゾウ (zō, Elefant)'},
+'ダ': {'hiragana': 'だ', 'romanji': 'da', 'example': 'ダイヤモンド (daiyamondo, Diamant)'},
+'ヂ': {'hiragana': 'ぢ', 'romanji': 'ji', 'example': 'ヂェット (jetto, Jet)'},
+'ヅ': {'hiragana': 'づ', 'romanji': 'zu', 'example': 'ヅカ (zuka, Grabhügel)'},
+'デ': {'hiragana': 'で', 'romanji': 'de', 'example': 'デザート (dezāto, Dessert)'},
+'ド': {'hiragana': 'ど', 'romanji': 'do', 'example': 'ドア (doa, Tür)'},
+'バ': {'hiragana': 'ば', 'romanji': 'ba', 'example': 'バナナ (banana, Banane)'},
+'ビ': {'hiragana': 'び', 'romanji': 'bi', 'example': 'ビール (bīru, Bier)'},
+'ブ': {'hiragana': 'ぶ', 'romanji': 'bu', 'example': 'ブドウ (budō, Traube)'},
+'ベ': {'hiragana': 'べ', 'romanji': 'be', 'example': 'ベッド (beddo, Bett)'},
+'ボ': {'hiragana': 'ぼ', 'romanji': 'bo', 'example': 'ボール (bōru, Ball)'},
+'パ': {'hiragana': 'ぱ', 'romanji': 'pa', 'example': 'パスタ (pasuta, Pasta)'},
+'ピ': {'hiragana': 'ぴ', 'romanji': 'pi', 'example': 'ピアノ (piano, Klavier)'},
+'プ': {'hiragana': 'ぷ', 'romanji': 'pu', 'example': 'プール (pūru, Schwimmbad)'},
+'ペ': {'hiragana': 'ぺ', 'romanji': 'pe', 'example': 'ペン (pen, Stift)'},
+'ポ': {'hiragana': 'ぽ', 'romanji': 'po', 'example': 'ポケット (poketto, Tasche)'},
+'キャ': {'hiragana': 'きゃ', 'romanji': 'kya', 'example': 'キャベツ (kyabetsu, Kohl)'},
+'キュ': {'hiragana': 'きゅ', 'romanji': 'kyu', 'example': 'キュウリ (kyūri, Gurke)'},
+'キョ': {'hiragana': 'きょ', 'romanji': 'kyo', 'example': 'キョウト (kyōto, Kyoto)'},
+'シャ': {'hiragana': 'しゃ', 'romanji': 'sha', 'example': 'シャワー (shawā, Dusche)'},
+'シュ': {'hiragana': 'しゅ', 'romanji': 'shu', 'example': 'シュークリーム (shūkurīmu, Windbeutel)'},
+'ショ': {'hiragana': 'しょ', 'romanji': 'sho', 'example': 'ショッピング (shoppingu, Einkaufen)'},
+'チャ': {'hiragana': 'ちゃ', 'romanji': 'cha', 'example': 'チャーハン (chāhan, gebratener Reis)'},
+'チュ': {'hiragana': 'ちゅ', 'romanji': 'chu', 'example': 'チューリップ (chūrippu, Tulpe)'},
+'チョ': {'hiragana': 'ちょ', 'romanji': 'cho', 'example': 'チョコレート (chokorēto, Schokolade)'},
+'ニャ': {'hiragana': 'にゃ', 'romanji': 'nya', 'example': 'ニャンコ (nyanko, Kätzchen)'},
+'ニュ': {'hiragana': 'にゅ', 'romanji': 'nyu', 'example': 'ニュース (nyūsu, Nachrichten)'},
+'ニョ': {'hiragana': 'にょ', 'romanji': 'nyo', 'example': 'ニョロニョロ (nyoronyoro, schleimig)'},
+'ヒャ': {'hiragana': 'ひゃ', 'romanji': 'hya', 'example': 'ヒャクエン (hyakuen, 100 Yen)'},
+'ヒュ': {'hiragana': 'ひゅ', 'romanji': 'hyu', 'example': 'ヒューズ (hyūzu, Sicherung)'},
+'ヒョ': {'hiragana': 'ひょ', 'romanji': 'hyo', 'example': 'ヒョウ (hyō, Leopard)'},
+'ミャ': {'hiragana': 'みゃ', 'romanji': 'mya', 'example': 'ミャンマー (myanmā, Myanmar)'},
+'ミュ': {'hiragana': 'みゅ', 'romanji': 'myu', 'example': 'ミュージック (myūjikku, Musik)'},
+'ミョ': {'hiragana': 'みょ', 'romanji': 'myo', 'example': 'ミョウガ (myōga, Ingwerlilie)'},
+'リャ': {'hiragana': 'りゃ', 'romanji': 'rya', 'example': 'リャマ (ryama, Lama)'},
+'リュ': {'hiragana': 'りゅ', 'romanji': 'ryu', 'example': 'リュック (ryukku, Rucksack)'},
+'リョ': {'hiragana': 'りょ', 'romanji': 'ryo', 'example': 'リョカン (ryokan, traditionelles japanisches Gasthaus)'},
+'ギャ': {'hiragana': 'ぎゃ', 'romanji': 'gya', 'example': 'ギャラリー (gyararī, Galerie)'},
+'ギュ': {'hiragana': 'ぎゅ', 'romanji': 'gyu', 'example': 'ギュウニュウ (gyūnyū, Milch)'},
+'ギョ': {'hiragana': 'ぎょ', 'romanji': 'gyo', 'example': 'ギョウザ (gyōza, Teigtaschen)'},
+'ジャ': {'hiragana': 'じゃ', 'romanji': 'ja', 'example': 'ジャケット (jaketto, Jacke)'},
+'ジュ': {'hiragana': 'じゅ', 'romanji': 'ju', 'example': 'ジュース (jūsu, Saft)'},
+'ジョ': {'hiragana': 'じょ', 'romanji': 'jo', 'example': 'ジョギング (jogingu, Joggen)'},
+'ビャ': {'hiragana': 'びゃ', 'romanji': 'bya', 'example': 'ビャクダン (byakudan, Sandelholz)'},
+'ビュ': {'hiragana': 'びゅ', 'romanji': 'byu', 'example': 'ビュッフェ (byuffe, Buffet)'},
+'ビョ': {'hiragana': 'びょ', 'romanji': 'byo', 'example': 'ビョウイン (byōin, Krankenhaus)'},
+'ピャ': {'hiragana': 'ぴゃ', 'romanji': 'pya', 'example': 'ピャオ (pyao, Ticket)'},
+'ピュ': {'hiragana': 'ぴゅ', 'romanji': 'pyu', 'example': 'ピューマ (pyūma, Puma)'},
+'ピョ': {'hiragana': 'ぴょ', 'romanji': 'pyo', 'example': 'ピョンピョン (pyonpyon, hüpfend)'},
+}
+
+@app.route('/static/<path:path>')
+def send_static(path):
+    return send_from_directory('static', path)
+
+@app.route('/impressum')
+def impressum():
+    return render_template('impressum.html')
+
+@app.route('/datenschutz')
+def datenschutz():
+    return render_template('datenschutz.html')
+
+@app.route('/')
+def index():
+    return render_template('learn_katakana.html')
+
+
+@app.route('/get_question')
+def get_question():
+    mode = random.choice(['katakana_to_romanji', 'romanji_to_katakana', 'katakana_to_hiragana', 'hiragana_to_katakana'])
+
+    katakana, info = random.choice(list(japanese_dict.items()))
+    hiragana = info['hiragana']
+    romanji = info['romanji']
+    example = info['example']
+
+    if mode == 'katakana_to_romanji':
+        question = katakana
+        correct_answer = romanji
+        options = [romanji]
+        while len(options) < 3:
+            option = random.choice([info['romanji'] for info in japanese_dict.values()])
+            if option not in options:
+                options.append(option)
+    elif mode == 'romanji_to_katakana':
+        question = romanji
+        correct_answer = katakana
+        options = [katakana]
+        while len(options) < 3:
+            option = random.choice(list(japanese_dict.keys()))
+            if option not in options:
+                options.append(option)
+    elif mode == 'katakana_to_hiragana':
+        question = katakana
+        correct_answer = hiragana
+        options = [hiragana]
+        while len(options) < 3:
+            option = random.choice([info['hiragana'] for info in japanese_dict.values()])
+            if option not in options:
+                options.append(option)
+    else:  # hiragana_to_katakana
+        question = hiragana
+        correct_answer = katakana
+        options = [katakana]
+        while len(options) < 3:
+            option = random.choice(list(japanese_dict.keys()))
+            if option not in options:
+                options.append(option)
+
+    random.shuffle(options)
+
+    return jsonify({
+        'mode': mode,
+        'question': question,
+        'options': options,
+        'correct_answer': correct_answer,
+        'example': example
+    })
+
+
+if __name__ == '__main__':
+    port = int(os.environ.get("PORT", 5001))
+    app.run(host='0.0.0.0', port=port)
