@@ -61,6 +61,21 @@
         <p class="mb-4">Die von Ihnen an uns per Kontaktanfragen übersandten Daten verbleiben bei uns, bis Sie uns zur Löschung auffordern, Ihre Einwilligung zur Speicherung widerrufen oder der Zweck für die Datenspeicherung entfällt (z. B. nach abgeschlossener Bearbeitung Ihres Anliegens). Zwingende gesetzliche Bestimmungen – insbesondere gesetzliche Aufbewahrungsfristen – bleiben unberührt.</p>
     </section>
 
+    <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">5. Google AdSense und Cookies</h2>
+        <p class="mb-4">Diese Website nutzt Google AdSense, einen Dienst zum Einbinden von Werbeanzeigen der Google Ireland Limited ("Google"). Google AdSense verwendet sog. "Cookies", Textdateien, die auf Ihrem Computer gespeichert werden und die eine Analyse der Benutzung der Website ermöglichen. Google AdSense verwendet auch sog. Web Beacons (unsichtbare Grafiken). Durch diese Web Beacons können Informationen wie der Besucherverkehr auf diesen Seiten ausgewertet werden.</p>
+
+        <p class="mb-4">Die durch Cookies und Web Beacons erzeugten Informationen über die Benutzung dieser Website (einschließlich Ihrer IP-Adresse) und Auslieferung von Werbeformaten werden an einen Server von Google in den USA übertragen und dort gespeichert. Diese Informationen können von Google an Vertragspartner von Google weitergegeben werden. Google wird Ihre IP-Adresse jedoch nicht mit anderen von Ihnen gespeicherten Daten zusammenführen.</p>
+
+        <p class="mb-4">Die Verwendung dieser Cookies basiert auf Art. 6 Abs. 1 lit. f DSGVO: Wir haben ein berechtigtes Interesse an der Analyse des Nutzerverhaltens, um sowohl unser Webangebot als auch unsere Werbung zu optimieren. Wenn Sie mit der Erfassung der Daten durch Google AdSense nicht einverstanden sind, können Sie dies durch die Deaktivierung der Cookies für Google AdSense in Ihren Browsereinstellungen verhindern. Weitere Informationen zur Datenverarbeitung und Hinweise zum Datenschutz durch Google AdSense finden Sie in der Datenschutzerklärung von Google: https://policies.google.com/privacy?hl=de</p>
+
+        <div id="adsense-consent" class="mb-4">
+            <button id="adsense-opt-out" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                Google AdSense Cookies ablehnen
+            </button>
+        </div>
+    </section>
+
     <section>
         <h2 class="text-2xl font-semibold mb-4">4. Ihre Rechte</h2>
         <p class="mb-4">Sie haben das Recht:</p>
@@ -77,12 +92,76 @@
 </div>
 
 <script>
-    // Deactivate Google AdSense
-    (function() {
-        var ad = document.querySelector('script[src^="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"]');
-        if (ad) {
-            ad.remove();
+    function deleteAllCookies() {
+        var cookies = document.cookie.split(";");
+
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i];
+            var eqPos = cookie.indexOf("=");
+            var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
         }
-    })();
+    }
+
+    function deleteGoogleCookies() {
+        var cookies = document.cookie.split("; ");
+        for (var c = 0; c < cookies.length; c++) {
+            var d = window.location.hostname.split(".");
+            while (d.length > 0) {
+                var cookieBase = encodeURIComponent(cookies[c].split(";")[0].split("=")[0]) + '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; domain=' + d.join('.') + ' ;path=';
+                var p = location.pathname.split('/');
+                document.cookie = cookieBase + '/';
+                while (p.length > 0) {
+                    document.cookie = cookieBase + p.join('/');
+                    p.pop();
+                }
+                d.shift();
+            }
+        }
+    }
+
+    function optOutAdSense() {
+        // Set a cookie to remember the user's choice
+        document.cookie = "adsense_opt_out=true; expires=Thu, 31 Dec 2099 23:59:59 UTC; path=/";
+
+        // Remove Google AdSense script
+        var adScripts = document.querySelectorAll('script[src^="https://pagead2.googlesyndication.com/"]');
+        adScripts.forEach(function(script) {
+            script.remove();
+        });
+
+        // Disable any existing ads
+        var adElements = document.querySelectorAll('ins.adsbygoogle');
+        adElements.forEach(function(ad) {
+            ad.style.display = 'none';
+        });
+
+        // Delete all cookies (including Google cookies)
+        deleteAllCookies();
+        deleteGoogleCookies();
+
+        // Update button text
+        var button = document.getElementById('adsense-opt-out');
+        if (button) {
+            button.textContent = 'Google AdSense Cookies abgelehnt';
+            button.disabled = true;
+        }
+
+        // Prevent future script loading
+        window.__google_ad_url_changed = function() { return false; };
+    }
+
+    // Check if user has already opted out
+    window.addEventListener('load', function() {
+        if (document.cookie.indexOf('adsense_opt_out=true') !== -1) {
+            optOutAdSense();
+        }
+    });
+
+    // Add click event to opt-out button
+    var optOutButton = document.getElementById('adsense-opt-out');
+    if (optOutButton) {
+        optOutButton.addEventListener('click', optOutAdSense);
+    }
 </script>
 {% endblock %}

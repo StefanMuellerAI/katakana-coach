@@ -11,9 +11,18 @@
             background-image: url('{{ url_for('static', filename='pattern.png') }}');
             background-repeat: repeat;
         }
+        #cookie-banner {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 1rem;
+            z-index: 1000;
+        }
     </style>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5484124608444660"
-     crossorigin="anonymous"></script>
 </head>
 <body class="flex flex-col min-h-screen bg-gray-100">
     <header class="bg-blue-900 text-white p-4">
@@ -38,5 +47,74 @@
             </div>
         </div>
     </footer>
+
+    <div id="cookie-banner">
+        <div class="container mx-auto flex justify-between items-center">
+            <p class="text-sm mr-4">
+                Diese Website verwendet Cookies von Google AdSense, um personalisierte Werbung anzuzeigen.
+                Durch die Nutzung dieser Website erklären Sie sich mit der Verwendung von Cookies einverstanden.
+                Weitere Informationen finden Sie in unserer <a href="{{ url_for('datenschutz') }}" class="text-blue-300 hover:text-blue-100">Datenschutzerklärung</a>.
+            </p>
+            <div>
+                <button id="accept-cookies" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2">
+                    Akzeptieren
+                </button>
+                <button id="reject-cookies" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                    Ablehnen
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days*24*60*60*1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+        }
+
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0;i < ca.length;i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1,c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+            }
+            return null;
+        }
+
+        function loadGoogleAdsense() {
+            var script = document.createElement('script');
+            script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5484124608444660";
+            script.async = true;
+            script.crossOrigin = "anonymous";
+            document.head.appendChild(script);
+        }
+
+        window.onload = function() {
+            var consent = getCookie('cookie_consent');
+            if (consent === null) {
+                document.getElementById('cookie-banner').style.display = 'block';
+            } else if (consent === 'accepted') {
+                loadGoogleAdsense();
+            }
+        }
+
+        document.getElementById('accept-cookies').onclick = function() {
+            setCookie('cookie_consent', 'accepted', 365);
+            document.getElementById('cookie-banner').style.display = 'none';
+            loadGoogleAdsense();
+        }
+
+        document.getElementById('reject-cookies').onclick = function() {
+            setCookie('cookie_consent', 'rejected', 365);
+            document.getElementById('cookie-banner').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
