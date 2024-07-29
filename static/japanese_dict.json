@@ -102,5 +102,20 @@
 "ビョ": {"hiragana": "びょ", "romanji": "byo", "example": "ビョウイン (byōin, Krankenhaus)"},
 "ピャ": {"hiragana": "ぴゃ", "romanji": "pya", "example": "ピャオ (pyao, Ticket)"},
 "ピュ": {"hiragana": "ぴゅ", "romanji": "pyu", "example": "ピューマ (pyūma, Puma)"},
-"ピョ": {"hiragana": "ぴょ", "romanji": "pyo", "example": "ピョンピョン (pyonpyon, hüpfend)"}
+"ピョ": {"hiragana": "ぴょ", "romanji": "pyo", "example": "ピョンピョン (pyonpyon, hüpfend)"},
+  "ヴ": {"hiragana": "ゔ", "romanji": "vu", "example": "ヴァイオリン (vaiorin, Violine)"},
+  "ウィ": {"hiragana": "うぃ", "romanji": "wi", "example": "ウィンドウ (windou, Fenster)"},
+  "ウェ": {"hiragana": "うぇ", "romanji": "we", "example": "ウェディング (wedingu, Hochzeit)"},
+  "ウォ": {"hiragana": "うぉ", "romanji": "wo", "example": "ウォッカ (wokka, Wodka)"},
+  "シェ": {"hiragana": "しぇ", "romanji": "she", "example": "シェア (shea, teilen)"},
+  "チェ": {"hiragana": "ちぇ", "romanji": "che", "example": "チェス (chesu, Schach)"},
+  "ティ": {"hiragana": "てぃ", "romanji": "ti", "example": "ティー (tī, Tee)"},
+  "トゥ": {"hiragana": "とぅ", "romanji": "tu", "example": "トゥール (tūru, Werkzeug)"},
+  "ファ": {"hiragana": "ふぁ", "romanji": "fa", "example": "ファッション (fasshon, Mode)"},
+  "フィ": {"hiragana": "ふぃ", "romanji": "fi", "example": "フィルム (firumu, Film)"},
+  "フェ": {"hiragana": "ふぇ", "romanji": "fe", "example": "フェリー (ferī, Fähre)"},
+  "フォ": {"hiragana": "ふぉ", "romanji": "fo", "example": "フォーク (fōku, Gabel)"},
+  "ジェ": {"hiragana": "じぇ", "romanji": "je", "example": "ジェット (jetto, Jet)"},
+  "ディ": {"hiragana": "でぃ", "romanji": "di", "example": "ディナー (dinā, Abendessen)"},
+  "デュ": {"hiragana": "でゅ", "romanji": "du", "example": "デュエット (duetto, Duett)"}
 }
