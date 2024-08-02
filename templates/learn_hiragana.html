@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let timeLeft = 120;
   let timer;
   let isTimerStarted = false;
+  let draggedElement = null;
 
   const romajiContainer = document.getElementById('romaji-container');
   const hiraganaContainer = document.getElementById('hiragana-container');
@@ -76,6 +77,9 @@ document.addEventListener('DOMContentLoaded', function() {
       box.className = `p-2 rounded w-full h-12 flex items-center justify-center text-sm sm:text-base ${matched[r] ? 'bg-green-200' : 'bg-gray-200'}`;
       box.addEventListener('dragover', handleDragOver);
       box.addEventListener('drop', (e) => handleDrop(e, r));
+      box.addEventListener('touchstart', handleTouchStart, {passive: false});
+      box.addEventListener('touchmove', handleTouchMove, {passive: false});
+      box.addEventListener('touchend', (e) => handleTouchEnd(e, r));
       romajiContainer.appendChild(box);
     });
 
@@ -85,6 +89,9 @@ document.addEventListener('DOMContentLoaded', function() {
       box.className = 'p-2 bg-blue-200 rounded cursor-move w-full h-12 flex items-center justify-center text-sm sm:text-base';
       box.draggable = true;
       box.addEventListener('dragstart', (e) => handleDragStart(e, h));
+      box.addEventListener('touchstart', (e) => handleTouchStart(e, h), {passive: false});
+      box.addEventListener('touchmove', handleTouchMove, {passive: false});
+      box.addEventListener('touchend', handleTouchEnd);
       hiraganaContainer.appendChild(box);
     });
   }
@@ -100,6 +107,46 @@ document.addEventListener('DOMContentLoaded', function() {
   function handleDrop(e, targetRomaji) {
     e.preventDefault();
     const droppedHiragana = e.dataTransfer.getData('text');
+    checkMatch(droppedHiragana, targetRomaji);
+  }
+
+  function handleTouchStart(e, hiragana) {
+    e.preventDefault();
+    draggedElement = e.target;
+    if (hiragana) {
+      draggedElement.dataset.hiragana = hiragana;
+    }
+  }
+
+  function handleTouchMove(e) {
+    e.preventDefault();
+    if (draggedElement) {
+      const touch = e.touches[0];
+      draggedElement.style.position = 'fixed';
+      draggedElement.style.left = touch.clientX - draggedElement.offsetWidth / 2 + 'px';
+      draggedElement.style.top = touch.clientY - draggedElement.offsetHeight / 2 + 'px';
+    }
+  }
+
+  function handleTouchEnd(e, targetRomaji) {
+    e.preventDefault();
+    if (draggedElement) {
+      const touch = e.changedTouches[0];
+      const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+
+      if (elementBelow && elementBelow.parentNode === romajiContainer) {
+        const droppedHiragana = draggedElement.dataset.hiragana;
+        checkMatch(droppedHiragana, targetRomaji || elementBelow.textContent);
+      }
+
+      draggedElement.style.position = '';
+      draggedElement.style.left = '';
+      draggedElement.style.top = '';
+      draggedElement = null;
+    }
+  }
+
+  function checkMatch(droppedHiragana, targetRomaji) {
     if (hiraganaToRomaji[droppedHiragana] === targetRomaji) {
       score++;
       scoreElement.textContent = score;
@@ -120,8 +167,11 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(initializeGame, 1000);
       }
     } else {
-      e.target.classList.add('bg-red-200');
-      setTimeout(() => e.target.classList.remove('bg-red-200'), 500);
+      const targetElement = Array.from(romajiContainer.children).find(el => el.textContent === targetRomaji);
+      if (targetElement) {
+        targetElement.classList.add('bg-red-200');
+        setTimeout(() => targetElement.classList.remove('bg-red-200'), 500);
+      }
     }
   }
 
