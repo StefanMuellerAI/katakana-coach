@@ -2,23 +2,24 @@
 {% block title %}Hiragana Lernen{% endblock %}
 {% block content %}
 
-<div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
-  <div class="p-8">
-    <h2 class="text-2xl font-semibold mb-4">Ziehe die Hiragana (rechts) auf ihr richtiges Romanji (links)! Der Timer startet mit der ersten Zuordnung.</h2>
+<div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-4">
+  <h2 class="text-xl sm:text-2xl font-semibold mb-4 text-center">Ziehe die Hiragana (rechts) auf ihr richtiges Romanji (links)! Der Timer startet mit der ersten Zuordnung.</h2>
 
-    <div id="game-container" class="flex justify-between">
-      <div id="romaji-container" class="w-1/2 grid grid-cols-5 gap-2">
-        <!-- Romaji boxes will be inserted here -->
-      </div>
-      <div id="hiragana-container" class="w-1/2 flex flex-wrap justify-center">
-        <!-- Hiragana boxes will be inserted here -->
-      </div>
+  <div id="game-container" class="flex flex-col sm:flex-row justify-between">
+    <div id="romaji-container" class="w-full sm:w-[47%] grid grid-cols-5 gap-1 mb-4 sm:mb-0">
+      <!-- Romaji boxes will be inserted here -->
     </div>
+    <div class="hidden sm:flex w-[6%] justify-center">
+      <div class="w-px bg-gray-300 mx-2.5"></div>
+    </div>
+    <div id="hiragana-container" class="w-full sm:w-[47%] grid grid-cols-5 gap-1 justify-items-center">
+      <!-- Hiragana boxes will be inserted here -->
+    </div>
+  </div>
 
-    <div class="text-center mt-4">
-      <p>Punkte: <span id="score">0</span> / 40</p>
-      <p>Verbleibende Zeit: <span id="time-left">120</span> Sekunden</p>
-    </div>
+  <div class="text-center mt-4">
+    <p>Punkte: <span id="score">0</span> / 40</p>
+    <p>Verbleibende Zeit: <span id="time-left">120</span> Sekunden</p>
   </div>
 </div>
 
@@ -72,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
     romaji.forEach(r => {
       const box = document.createElement('div');
       box.textContent = r;
-      box.className = `p-2 m-1 rounded w-12 h-12 flex items-center justify-center ${matched[r] ? 'bg-green-200' : 'bg-gray-200'}`;
+      box.className = `p-2 rounded w-full h-12 flex items-center justify-center text-sm sm:text-base ${matched[r] ? 'bg-green-200' : 'bg-gray-200'}`;
       box.addEventListener('dragover', handleDragOver);
       box.addEventListener('drop', (e) => handleDrop(e, r));
       romajiContainer.appendChild(box);
@@ -81,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
     hiragana.forEach(h => {
       const box = document.createElement('div');
       box.textContent = h;
-      box.className = 'p-2 m-1 bg-blue-200 rounded cursor-move w-12 h-12 flex items-center justify-center';
+      box.className = 'p-2 bg-blue-200 rounded cursor-move w-full h-12 flex items-center justify-center text-sm sm:text-base';
       box.draggable = true;
       box.addEventListener('dragstart', (e) => handleDragStart(e, h));
       hiraganaContainer.appendChild(box);
