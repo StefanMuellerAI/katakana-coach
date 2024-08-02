@@ -1,16 +1,22 @@
-from flask import Flask, render_template, jsonify, send_from_directory
+from flask import Flask, render_template, send_from_directory
 import os
-import json
-import random
+from data_loader import load_json_data
+from blueprints.katakana import katakana_bp
+from blueprints.kanji import kanji_bp
+from blueprints.hiragana import hiragana_bp
+from blueprints.particles import particles_bp
+from blueprints.vocabulary import vocabulary_bp
 
-app = Flask(__name__, static_folder='static')
+app = Flask(__name__, static_folder='static', template_folder='templates')
 
-# Load JSON files
-with open('static/japanese_dict.json', 'r', encoding='utf-8') as f:
-    japanese_dict = json.load(f)
+# Load JSON data
+japanese_dict, japanese_words, kanji_list, hiragana_dict, japanese_vocabulary_conjugations = load_json_data()
 
-with open('static/japanese_words.json', 'r', encoding='utf-8') as f:
-    japanese_words = json.load(f)
+app.register_blueprint(katakana_bp)
+app.register_blueprint(kanji_bp)
+app.register_blueprint(hiragana_bp)
+app.register_blueprint(particles_bp)
+app.register_blueprint(vocabulary_bp)
 
 @app.route('/static/<path:path>')
 def send_static(path):
@@ -26,75 +32,7 @@ def datenschutz():
 
 @app.route('/')
 def index():
-    return render_template('learn_katakana.html')
-
-@app.route('/get_question')
-def get_question():
-    # Define modes and their weights
-    modes = ['katakana_to_romanji', 'romanji_to_katakana', 'katakana_to_hiragana', 'hiragana_to_katakana', 'word_to_romanji']
-    weights = [1, 1, 1, 1, 2]  # 'word_to_romanji' has weight 2, others have weight 1
-
-    # Choose a mode based on the weights
-    mode = random.choices(modes, weights=weights, k=1)[0]
-
-    if mode == 'word_to_romanji':
-        katakana_word, (romanji_word, german_translation) = random.choice(list(japanese_words.items()))
-        print(katakana_word, romanji_word, german_translation)
-        return jsonify({
-            'mode': mode,
-            'question': katakana_word,
-            'correct_answer': romanji_word,
-            'german_translation': german_translation
-        })
-    else:
-        katakana, info = random.choice(list(japanese_dict.items()))
-        hiragana = info['hiragana']
-        romanji = info['romanji']
-        example = info['example']
-
-        if mode == 'katakana_to_romanji':
-            question = katakana
-            correct_answer = romanji
-            options = [romanji]
-            while len(options) < 3:
-                option = random.choice([info['romanji'] for info in japanese_dict.values()])
-                if option not in options:
-                    options.append(option)
-        elif mode == 'romanji_to_katakana':
-            question = romanji
-            correct_answer = katakana
-            options = [katakana]
-            while len(options) < 3:
-                option = random.choice(list(japanese_dict.keys()))
-                if option not in options:
-                    options.append(option)
-        elif mode == 'katakana_to_hiragana':
-            question = katakana
-            correct_answer = hiragana
-            options = [hiragana]
-            while len(options) < 3:
-                option = random.choice([info['hiragana'] for info in japanese_dict.values()])
-                if option not in options:
-                    options.append(option)
-        else:  # hiragana_to_katakana
-            question = hiragana
-            correct_answer = katakana
-            options = [katakana]
-            while len(options) < 3:
-                option = random.choice(list(japanese_dict.keys()))
-                if option not in options:
-                    options.append(option)
-
-        random.shuffle(options)
-
-        return jsonify({
-            'mode': mode,
-            'question': question,
-            'options': options,
-            'correct_answer': correct_answer,
-            'example': example
-        })
-
+    return render_template('index.html')
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5001))

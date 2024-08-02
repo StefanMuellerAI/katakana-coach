@@ -149,6 +149,11 @@
 
         // Prevent future script loading
         window.__google_ad_url_changed = function() { return false; };
+
+        // Reload the page
+    setTimeout(function() {
+        location.reload();
+    }, 500);
     }
 
     // Check if user has already opted out

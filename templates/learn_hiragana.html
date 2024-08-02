@@ -1,0 +1,142 @@
+{% extends "layout.html" %}
+{% block title %}Hiragana Lernen{% endblock %}
+{% block content %}
+
+<div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+  <div class="p-8">
+    <h2 class="text-2xl font-semibold mb-4">Ziehe die Hiragana (rechts) auf ihr richtiges Romanji (links)! Der Timer startet mit der ersten Zuordnung.</h2>
+
+    <div id="game-container" class="flex justify-between">
+      <div id="romaji-container" class="w-1/2 grid grid-cols-5 gap-2">
+        <!-- Romaji boxes will be inserted here -->
+      </div>
+      <div id="hiragana-container" class="w-1/2 flex flex-wrap justify-center">
+        <!-- Hiragana boxes will be inserted here -->
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+      <p>Punkte: <span id="score">0</span> / 40</p>
+      <p>Verbleibende Zeit: <span id="time-left">120</span> Sekunden</p>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  let hiraganaToRomaji = {};
+  let hiragana = [];
+  let romaji = [];
+  let matched = {};
+  let score = 0;
+  let timeLeft = 120;
+  let timer;
+  let isTimerStarted = false;
+
+  const romajiContainer = document.getElementById('romaji-container');
+  const hiraganaContainer = document.getElementById('hiragana-container');
+  const scoreElement = document.getElementById('score');
+  const timeLeftElement = document.getElementById('time-left');
+
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  function initializeGame() {
+    clearInterval(timer);
+    matched = {};
+    score = 0;
+    timeLeft = 120;
+    isTimerStarted = false;
+    scoreElement.textContent = score;
+    timeLeftElement.textContent = timeLeft;
+
+    fetch('/get_hiragana_data')
+      .then(response => response.json())
+      .then(data => {
+        hiraganaToRomaji = data;
+        hiragana = shuffle(Object.keys(hiraganaToRomaji));
+        romaji = shuffle(Object.values(hiraganaToRomaji));
+        renderGame();
+      });
+  }
+
+  function renderGame() {
+    romajiContainer.innerHTML = '';
+    hiraganaContainer.innerHTML = '';
+
+    romaji.forEach(r => {
+      const box = document.createElement('div');
+      box.textContent = r;
+      box.className = `p-2 m-1 rounded w-12 h-12 flex items-center justify-center ${matched[r] ? 'bg-green-200' : 'bg-gray-200'}`;
+      box.addEventListener('dragover', handleDragOver);
+      box.addEventListener('drop', (e) => handleDrop(e, r));
+      romajiContainer.appendChild(box);
+    });
+
+    hiragana.forEach(h => {
+      const box = document.createElement('div');
+      box.textContent = h;
+      box.className = 'p-2 m-1 bg-blue-200 rounded cursor-move w-12 h-12 flex items-center justify-center';
+      box.draggable = true;
+      box.addEventListener('dragstart', (e) => handleDragStart(e, h));
+      hiraganaContainer.appendChild(box);
+    });
+  }
+
+  function handleDragStart(e, hiragana) {
+    e.dataTransfer.setData('text/plain', hiragana);
+  }
+
+  function handleDragOver(e) {
+    e.preventDefault();
+  }
+
+  function handleDrop(e, targetRomaji) {
+    e.preventDefault();
+    const droppedHiragana = e.dataTransfer.getData('text');
+    if (hiraganaToRomaji[droppedHiragana] === targetRomaji) {
+      score++;
+      scoreElement.textContent = score;
+      hiragana = hiragana.filter(h => h !== droppedHiragana);
+      matched[targetRomaji] = true;
+      renderGame();
+
+      if (!isTimerStarted) {
+        startTimer();
+        isTimerStarted = true;
+      }
+
+      timeLeft += 2;
+      timeLeftElement.textContent = timeLeft;
+
+      if (score === 40) {
+        clearInterval(timer);
+        setTimeout(initializeGame, 1000);
+      }
+    } else {
+      e.target.classList.add('bg-red-200');
+      setTimeout(() => e.target.classList.remove('bg-red-200'), 500);
+    }
+  }
+
+  function startTimer() {
+    timer = setInterval(() => {
+      timeLeft--;
+      timeLeftElement.textContent = timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        setTimeout(initializeGame, 1000);
+      }
+    }, 1000);
+  }
+
+  initializeGame();
+});
+</script>
+
+{% endblock %}

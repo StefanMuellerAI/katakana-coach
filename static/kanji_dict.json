@@ -1,0 +1,924 @@
+[
+{
+"日本": {
+"hiragana": "にほん",
+"bedeutung": "Japan",
+"kanji": ["日", "本"],
+"hint": "Ein Inselstaat in Ostasien, bekannt für Sushi und Anime"
+}
+},
+{
+"学生": {
+"hiragana": "がくせい",
+"bedeutung": "Student",
+"kanji": ["学", "生"],
+"hint": "Jemand, der an einer Universität oder Schule lernt"
+}
+},
+{
+"短い": {
+"hiragana": "みじかい",
+"bedeutung": "kurz",
+"kanji": ["短"],
+"hint": "Das Gegenteil von lang"
+}
+},
+{
+"一": {
+"hiragana": "いち",
+"bedeutung": "eins",
+"kanji": ["一"],
+"hint": "Die erste Zahl"
+}
+},
+{
+"二": {
+"hiragana": "に",
+"bedeutung": "zwei",
+"kanji": ["二"],
+"hint": "Die Zahl nach eins"
+}
+},
+{
+"三": {
+"hiragana": "さん",
+"bedeutung": "drei",
+"kanji": ["三"],
+"hint": "Die Zahl nach zwei"
+}
+},
+{
+"四": {
+"hiragana": "よん",
+"bedeutung": "vier",
+"kanji": ["四"],
+"hint": "Die Zahl nach drei"
+}
+},
+{
+"五": {
+"hiragana": "ご",
+"bedeutung": "fünf",
+"kanji": ["五"],
+"hint": "Die Zahl nach vier"
+}
+},
+{
+"六": {
+"hiragana": "ろく",
+"bedeutung": "sechs",
+"kanji": ["六"],
+"hint": "Die Zahl nach fünf"
+}
+},
+{
+"七": {
+"hiragana": "なな",
+"bedeutung": "sieben",
+"kanji": ["七"],
+"hint": "Die Zahl nach sechs"
+}
+},
+{
+"八": {
+"hiragana": "はち",
+"bedeutung": "acht",
+"kanji": ["八"],
+"hint": "Die Zahl nach sieben"
+}
+},
+{
+"九": {
+"hiragana": "きゅう",
+"bedeutung": "neun",
+"kanji": ["九"],
+"hint": "Die Zahl vor zehn"
+}
+},
+{
+"十": {
+"hiragana": "じゅう",
+"bedeutung": "zehn",
+"kanji": ["十"],
+"hint": "Die Zahl nach neun"
+}
+},
+{
+"百": {
+"hiragana": "ひゃく",
+"bedeutung": "hundert",
+"kanji": ["百"],
+"hint": "Zehn mal zehn"
+}
+},
+{
+"千": {
+"hiragana": "せん",
+"bedeutung": "tausend",
+"kanji": ["千"],
+"hint": "Zehn mal hundert"
+}
+},
+{
+"万": {
+"hiragana": "まん",
+"bedeutung": "zehntausend",
+"kanji": ["万"],
+"hint": "Zehn mal tausend"
+}
+},
+{
+"円": {
+"hiragana": "えん",
+"bedeutung": "Yen",
+"kanji": ["円"],
+"hint": "Die japanische Währung"
+}
+},
+{
+"時": {
+"hiragana": "じ",
+"bedeutung": "Zeit, Stunde",
+"kanji": ["時"],
+"hint": "Eine Einheit zur Zeitmessung"
+}
+},
+{
+"分": {
+"hiragana": "ふん",
+"bedeutung": "Minute",
+"kanji": ["分"],
+"hint": "60 Sekunden"
+}
+},
+{
+"半": {
+"hiragana": "はん",
+"bedeutung": "halb",
+"kanji": ["半"],
+"hint": "Die Hälfte von etwas"
+}
+},
+{
+"年": {
+"hiragana": "ねん",
+"bedeutung": "Jahr",
+"kanji": ["年"],
+"hint": "365 Tage"
+}
+},
+{
+"月": {
+"hiragana": "つき",
+"bedeutung": "Monat, Mond",
+"kanji": ["月"],
+"hint": "Ein Zwölftel eines Jahres oder der Himmelskörper"
+}
+},
+{
+"日": {
+"hiragana": "ひ",
+"bedeutung": "Tag, Sonne",
+"kanji": ["日"],
+"hint": "24 Stunden oder der Stern in unserem Sonnensystem"
+}
+},
+{
+"曜": {
+"hiragana": "よう",
+"bedeutung": "Wochentag",
+"kanji": ["曜"],
+"hint": "Wird in Kombination mit anderen Kanji für Wochentage verwendet"
+}
+},
+{
+"週": {
+"hiragana": "しゅう",
+"bedeutung": "Woche",
+"kanji": ["週"],
+"hint": "Sieben Tage"
+}
+},
+{
+"火": {
+"hiragana": "か",
+"bedeutung": "Feuer",
+"kanji": ["火"],
+"hint": "Etwas Heißes, das brennt"
+}
+},
+{
+"水": {
+"hiragana": "みず",
+"bedeutung": "Wasser",
+"kanji": ["水"],
+"hint": "Eine Flüssigkeit, die man trinken kann"
+}
+},
+{
+"木": {
+"hiragana": "き",
+"bedeutung": "Baum, Holz",
+"kanji": ["木"],
+"hint": "Eine Pflanze mit Stamm und Ästen"
+}
+},
+{
+"金": {
+"hiragana": "きん",
+"bedeutung": "Gold, Geld",
+"kanji": ["金"],
+"hint": "Ein wertvolles gelbes Metall oder Zahlungsmittel"
+}
+},
+{
+"土": {
+"hiragana": "つち",
+"bedeutung": "Erde, Boden",
+"kanji": ["土"],
+"hint": "Der Grund, auf dem wir stehen"
+}
+},
+{
+"曜日": {
+"hiragana": "ようび",
+"bedeutung": "Wochentag",
+"kanji": ["曜", "日"],
+"hint": "Ein Tag in der Woche"
+}
+},
+{
+"月曜日": {
+"hiragana": "げつようび",
+"bedeutung": "Montag",
+"kanji": ["月", "曜", "日"],
+"hint": "Der erste Tag der Arbeitswoche"
+}
+},
+{
+"火曜日": {
+"hiragana": "かようび",
+"bedeutung": "Dienstag",
+"kanji": ["火", "曜", "日"],
+"hint": "Der Tag nach Montag"
+}
+},
+{
+"水曜日": {
+"hiragana": "すいようび",
+"bedeutung": "Mittwoch",
+"kanji": ["水", "曜", "日"],
+"hint": "Die Mitte der Arbeitswoche"
+}
+},
+{
+"木曜日": {
+"hiragana": "もくようび",
+"bedeutung": "Donnerstag",
+"kanji": ["木", "曜", "日"],
+"hint": "Der Tag vor Freitag"
+}
+},
+{
+"金曜日": {
+"hiragana": "きんようび",
+"bedeutung": "Freitag",
+"kanji": ["金", "曜", "日"],
+"hint": "Der letzte Arbeitstag der Woche"
+}
+},
+{
+"土曜日": {
+"hiragana": "どようび",
+"bedeutung": "Samstag",
+"kanji": ["土", "曜", "日"],
+"hint": "Der erste Tag des Wochenendes"
+}
+},
+{
+"日曜日": {
+"hiragana": "にちようび",
+"bedeutung": "Sonntag",
+"kanji": ["日", "曜", "日"],
+"hint": "Der letzte Tag der Woche"
+}
+},
+{
+"今": {
+"hiragana": "いま",
+"bedeutung": "jetzt",
+"kanji": ["今"],
+"hint": "Die gegenwärtige Zeit"
+}
+},
+{
+"毎": {
+"hiragana": "まい",
+"bedeutung": "jeder",
+"kanji": ["毎"],
+"hint": "Wird verwendet, um Regelmäßigkeit auszudrücken"
+}
+},
+{
+"午": {
+"hiragana": "ご",
+"bedeutung": "Mittag",
+"kanji": ["午"],
+"hint": "Die Mitte des Tages"
+}
+},
+{
+"前": {
+"hiragana": "まえ",
+"bedeutung": "vor",
+"kanji": ["前"],
+"hint": "Zeitlich oder räumlich davor"
+}
+},
+{
+"後": {
+"hiragana": "あと",
+"bedeutung": "nach",
+"kanji": ["後"],
+"hint": "Zeitlich oder räumlich danach"
+}
+},
+{
+"朝": {
+"hiragana": "あさ",
+"bedeutung": "Morgen",
+"kanji": ["朝"],
+"hint": "Der Beginn des Tages"
+}
+},
+{
+"昼": {
+"hiragana": "ひる",
+"bedeutung": "Mittag, Nachmittag",
+"kanji": ["昼"],
+"hint": "Die Mitte des Tages"
+}
+},
+{
+"夜": {
+"hiragana": "よる",
+"bedeutung": "Nacht",
+"kanji": ["夜"],
+"hint": "Die dunkle Zeit des Tages"
+}
+},
+{
+"晩": {
+"hiragana": "ばん",
+"bedeutung": "Abend",
+"kanji": ["晩"],
+"hint": "Der spätere Teil des Tages"
+}
+},
+{
+"夕方": {
+"hiragana": "ゆうがた",
+"bedeutung": "Abend",
+"kanji": ["夕", "方"],
+"hint": "Die Zeit, wenn die Sonne untergeht"
+}
+},
+{
+"春": {
+"hiragana": "はる",
+"bedeutung": "Frühling",
+"kanji": ["春"],
+"hint": "Die Jahreszeit der Kirschblüten"
+}
+},
+{
+"夏": {
+"hiragana": "なつ",
+"bedeutung": "Sommer",
+"kanji": ["夏"],
+"hint": "Die heißeste Jahreszeit"
+}
+},
+{
+"秋": {
+"hiragana": "あき",
+"bedeutung": "Herbst",
+"kanji": ["秋"],
+"hint": "Die Jahreszeit der fallenden Blätter"
+}
+},
+{
+"冬": {
+"hiragana": "ふゆ",
+"bedeutung": "Winter",
+"kanji": ["冬"],
+"hint": "Die kälteste Jahreszeit"
+}
+},
+{
+"人": {
+"hiragana": "ひと",
+"bedeutung": "Person",
+"kanji": ["人"],
+"hint": "Ein menschliches Wesen"
+}
+},
+{
+"男": {
+"hiragana": "おとこ",
+"bedeutung": "Mann",
+"kanji": ["男"],
+"hint": "Eine erwachsene männliche Person"
+}
+},
+{
+"女": {
+"hiragana": "おんな",
+"bedeutung": "Frau",
+"kanji": ["女"],
+"hint": "Eine erwachsene weibliche Person"
+}
+},
+{
+"子": {
+"hiragana": "こ",
+"bedeutung": "Kind",
+"kanji": ["子"],
+"hint": "Eine junge Person"
+}
+},
+{
+"父": {
+"hiragana": "ちち",
+"bedeutung": "Vater",
+"kanji": ["父"],
+"hint": "Der männliche Elternteil"
+}
+},
+{
+"母": {
+"hiragana": "はは",
+"bedeutung": "Mutter",
+"kanji": ["母"],
+"hint": "Der weibliche Elternteil"
+}
+},
+{
+"家族": {
+"hiragana": "かぞく",
+"bedeutung": "Familie",
+"kanji": ["家", "族"],
+"hint": "Eine Gruppe von verwandten Personen"
+}
+},
+{
+"友達": {
+"hiragana": "ともだち",
+"bedeutung": "Freund",
+"kanji": ["友", "達"],
+"hint": "Eine Person, die man mag und der man vertraut"
+}
+},
+{
+"先生": {
+"hiragana": "せんせい",
+"bedeutung": "Lehrer",
+"kanji": ["先", "生"],
+"hint": "Jemand, der anderen etwas beibringt"
+}
+},
+{
+"医者": {
+"hiragana": "いしゃ",
+"bedeutung": "Arzt",
+"kanji": ["医", "者"],
+"hint": "Jemand, der Krankheiten behandelt"
+}
+},
+{
+"学校": {
+"hiragana": "がっこう",
+"bedeutung": "Schule",
+"kanji": ["学", "校"],
+"hint": "Ein Ort, an dem man lernt"
+}
+},
+{
+"会社": {
+"hiragana": "かいしゃ",
+"bedeutung": "Firma",
+"kanji": ["会", "社"],
+"hint": "Eine Organisation, die Geschäfte macht"
+}
+},
+{
+"病院": {
+"hiragana": "びょういん",
+"bedeutung": "Krankenhaus",
+"kanji": ["病", "院"],
+"hint": "Ein Ort, an dem Kranke behandelt werden"
+}
+},
+{
+"店": {
+"hiragana": "みせ",
+"bedeutung": "Geschäft",
+"kanji": ["店"],
+"hint": "Ein Ort, an dem man Dinge kaufen kann"
+}
+},
+{
+"駅": {
+"hiragana": "えき",
+"bedeutung": "Bahnhof",
+"kanji": ["駅"],
+"hint": "Ein Ort, an dem Züge halten"
+}
+},
+{
+"銀行": {
+"hiragana": "ぎんこう",
+"bedeutung": "Bank",
+"kanji": ["銀", "行"],
+"hint": "Ein Ort, an dem man Geld aufbewahrt"
+}
+},
+{
+"郵便局": {
+"hiragana": "ゆうびんきょく",
+"bedeutung": "Postamt",
+"kanji": ["郵", "便", "局"],
+"hint": "Ein Ort, an dem man Briefe und Pakete verschickt"
+}
+},
+{
+"図書館": {
+"hiragana": "としょかん",
+"bedeutung": "Bibliothek",
+"kanji": ["図", "書", "館"],
+"hint": "Ein Ort, an dem man Bücher ausleihen kann"
+}
+},
+{
+"映画館": {
+"hiragana": "えいがかん",
+"bedeutung": "Kino",
+"kanji": ["映", "画", "館"],
+"hint": "Ein Ort, an dem man Filme sieht"
+}
+},
+{
+"家": {
+"hiragana": "いえ",
+"bedeutung": "Haus",
+"kanji": ["家"],
+"hint": "Ein Gebäude, in dem Menschen wohnen"
+}
+},
+{
+"部屋": {
+"hiragana": "へや",
+"bedeutung": "Zimmer",
+"kanji": ["部", "屋"],
+"hint": "Ein Raum in einem Haus oder einer Wohnung"
+}
+},
+{
+"電話": {
+"hiragana": "でんわ",
+"bedeutung": "Telefon",
+"kanji": ["電", "話"],
+"hint": "Ein Gerät zum Sprechen mit entfernten Personen"
+}
+},
+{
+"手紙": {
+"hiragana": "てがみ",
+"bedeutung": "Brief",
+"kanji": ["手", "紙"],
+"hint": "Eine geschriebene Nachricht, die per Post verschickt wird"
+}
+},
+{
+"新聞": {
+"hiragana": "しんぶん",
+"bedeutung": "Zeitung",
+"kanji": ["新", "聞"],
+"hint": "Ein gedrucktes Medium mit aktuellen Nachrichten"
+}
+},
+{
+"雑誌": {
+"hiragana": "ざっし",
+"bedeutung": "Zeitschrift",
+"kanji": ["雑", "誌"],
+"hint": "Ein regelmäßig erscheinendes Druckerzeugnis"
+}
+},
+{
+"辞書": {
+"hiragana": "じしょ",
+"bedeutung": "Wörterbuch",
+"kanji": ["辞", "書"],
+"hint": "Ein Buch, das Wörter und ihre Bedeutungen erklärt"
+}
+},
+
+{
+"車": {
+"hiragana": "くるま",
+"bedeutung": "Auto",
+"kanji": ["車"],
+"hint": "Ein Fahrzeug mit vier Rädern"
+}
+},
+{
+"自転車": {
+"hiragana": "じてんしゃ",
+"bedeutung": "Fahrrad",
+"kanji": ["自", "転", "車"],
+"hint": "Ein Fahrzeug mit zwei Rädern, das man tritt"
+}
+},
+{
+"電車": {
+"hiragana": "でんしゃ",
+"bedeutung": "Zug",
+"kanji": ["電", "車"],
+"hint": "Ein elektrisches Schienenfahrzeug"
+}
+},
+{
+"飛行機": {
+"hiragana": "ひこうき",
+"bedeutung": "Flugzeug",
+"kanji": ["飛", "行", "機"],
+"hint": "Ein Fahrzeug, das fliegen kann"
+}
+},
+{
+"船": {
+"hiragana": "ふね",
+"bedeutung": "Schiff",
+"kanji": ["船"],
+"hint": "Ein Fahrzeug, das auf dem Wasser fährt"
+}
+},
+{
+"切符": {
+"hiragana": "きっぷ",
+"bedeutung": "Fahrkarte",
+"kanji": ["切", "符"],
+"hint": "Ein Dokument, das die Erlaubnis zum Reisen gibt"
+}
+},
+{
+"荷物": {
+"hiragana": "にもつ",
+"bedeutung": "Gepäck",
+"kanji": ["荷", "物"],
+"hint": "Dinge, die man auf Reisen mitnimmt"
+}
+},
+{
+"道": {
+"hiragana": "みち",
+"bedeutung": "Straße, Weg",
+"kanji": ["道"],
+"hint": "Ein Pfad zum Gehen oder Fahren"
+}
+},
+{
+"橋": {
+"hiragana": "はし",
+"bedeutung": "Brücke",
+"kanji": ["橋"],
+"hint": "Eine Struktur, die zwei Orte über Wasser oder eine Schlucht verbindet"
+}
+},
+{
+"公園": {
+"hiragana": "こうえん",
+"bedeutung": "Park",
+"kanji": ["公", "園"],
+"hint": "Ein öffentlicher Ort mit Grünflächen"
+}
+},
+{
+"動物園": {
+"hiragana": "どうぶつえん",
+"bedeutung": "Zoo",
+"kanji": ["動", "物", "園"],
+"hint": "Ein Ort, an dem man viele verschiedene Tiere sehen kann"
+}
+},
+{
+"山": {
+"hiragana": "やま",
+"bedeutung": "Berg",
+"kanji": ["山"],
+"hint": "Eine sehr große Erhebung in der Landschaft"
+}
+},
+{
+"海": {
+"hiragana": "うみ",
+"bedeutung": "Meer",
+"kanji": ["海"],
+"hint": "Eine große Wasserfläche"
+}
+},
+{
+"川": {
+"hiragana": "かわ",
+"bedeutung": "Fluss",
+"kanji": ["川"],
+"hint": "Ein natürlicher Wasserlauf"
+}
+},
+{
+"空": {
+"hiragana": "そら",
+"bedeutung": "Himmel",
+"kanji": ["空"],
+"hint": "Der Bereich über der Erde"
+}
+},
+{
+"雨": {
+"hiragana": "あめ",
+"bedeutung": "Regen",
+"kanji": ["雨"],
+"hint": "Wasser, das aus Wolken fällt"
+}
+},
+{
+"雪": {
+"hiragana": "ゆき",
+"bedeutung": "Schnee",
+"kanji": ["雪"],
+"hint": "Gefrorene Wassertropfen, die als weiße Flocken fallen"
+}
+},
+{
+"風": {
+"hiragana": "かぜ",
+"bedeutung": "Wind",
+"kanji": ["風"],
+"hint": "Bewegung der Luft"
+}
+},
+{
+"天気": {
+"hiragana": "てんき",
+"bedeutung": "Wetter",
+"kanji": ["天", "気"],
+"hint": "Die Bedingungen in der Atmosphäre"
+}
+},
+{
+"晴れ": {
+"hiragana": "はれ",
+"bedeutung": "sonnig",
+"kanji": ["晴"],
+"hint": "Klares, schönes Wetter"
+}
+},
+{
+"曇り": {
+"hiragana": "くもり",
+"bedeutung": "bewölkt",
+"kanji": ["曇"],
+"hint": "Wenn der Himmel von Wolken bedeckt ist"
+}
+},
+{
+"暑い": {
+"hiragana": "あつい",
+"bedeutung": "heiß",
+"kanji": ["暑"],
+"hint": "Sehr warmes Wetter"
+}
+},
+{
+"寒い": {
+"hiragana": "さむい",
+"bedeutung": "kalt",
+"kanji": ["寒"],
+"hint": "Sehr kühles Wetter"
+}
+},
+{
+"暖かい": {
+"hiragana": "あたたかい",
+"bedeutung": "warm",
+"kanji": ["暖"],
+"hint": "Angenehm warmes Wetter"
+}
+},
+{
+"涼しい": {
+"hiragana": "すずしい",
+"bedeutung": "kühl",
+"kanji": ["涼"],
+"hint": "Angenehm kühles Wetter"
+}
+},
+{
+"北": {
+"hiragana": "きた",
+"bedeutung": "Norden",
+"kanji": ["北"],
+"hint": "Die Richtung, in der der Polarstern steht"
+}
+},
+{
+"南": {
+"hiragana": "みなみ",
+"bedeutung": "Süden",
+"kanji": ["南"],
+"hint": "Die entgegengesetzte Richtung zum Norden"
+}
+},
+{
+"東": {
+"hiragana": "ひがし",
+"bedeutung": "Osten",
+"kanji": ["東"],
+"hint": "Die Richtung, in der die Sonne aufgeht"
+}
+},
+{
+"西": {
+"hiragana": "にし",
+"bedeutung": "Westen",
+"kanji": ["西"],
+"hint": "Die Richtung, in der die Sonne untergeht"
+}
+},
+{
+"左": {
+"hiragana": "ひだり",
+"bedeutung": "links",
+"kanji": ["左"],
+"hint": "Die Seite, auf der das Herz ist"
+}
+},
+{
+"右": {
+"hiragana": "みぎ",
+"bedeutung": "rechts",
+"kanji": ["右"],
+"hint": "Die entgegengesetzte Seite von links"
+}
+},
+{
+"上": {
+"hiragana": "うえ",
+"bedeutung": "oben",
+"kanji": ["上"],
+"hint": "Die Richtung zum Himmel"
+}
+},
+{
+"下": {
+"hiragana": "した",
+"bedeutung": "unten",
+"kanji": ["下"],
+"hint": "Die Richtung zum Boden"
+}
+},
+{
+"中": {
+"hiragana": "なか",
+"bedeutung": "Mitte, innen",
+"kanji": ["中"],
+"hint": "Der Bereich zwischen zwei Punkten oder innerhalb von etwas"
+}
+},
+{
+"外": {
+"hiragana": "そと",
+"bedeutung": "außen",
+"kanji": ["外"],
+"hint": "Der Bereich außerhalb von etwas"
+}
+},
+{
+"前": {
+"hiragana": "まえ",
+"bedeutung": "vor",
+"kanji": ["前"],
+"hint": "Die Richtung, in die man blickt"
+}
+},
+{
+"後ろ": {
+"hiragana": "うしろ",
+"bedeutung": "hinten",
+"kanji": ["後"],
+"hint": "Die entgegengesetzte Richtung von vorne"
+}
+}
+    ]
+

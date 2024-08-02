@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% block title %}Japanisch Lernen - Katakana, Kanji, Hiragana und Wortschatz Coach{% endblock %}
+{% block content %}
+
+<div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+  <h1 class="text-4xl font-bold text-center text-gray-900 mb-12">Willkommen beim Japanisch-Coach</h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+    <div class="bg-white overflow-hidden shadow rounded-lg">
+      <div class="px-4 py-5 sm:p-6">
+        <h2 class="text-2xl font-semibold text-gray-900 mb-4">Katakana Coach</h2>
+        <p class="mb-4">Übe Katakana mit interaktiven Fragen und verbessere deine Lesefähigkeiten.</p>
+        <a href="{{ url_for('katakana.learn_katakana') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
+          Zum Katakana Coach
+        </a>
+      </div>
+    </div>
+
+    <div class="bg-white overflow-hidden shadow rounded-lg">
+      <div class="px-4 py-5 sm:p-6">
+        <h2 class="text-2xl font-semibold text-gray-900 mb-4">Kanji Coach</h2>
+        <p class="mb-4">Lerne Kanji mit verschiedenen Übungen zu Bedeutung, Kun- und On-Lesungen.</p>
+        <a href="{{ url_for('kanji.learn_kanji') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700">
+          Zum Kanji Coach
+        </a>
+      </div>
+    </div>
+
+    <div class="bg-white overflow-hidden shadow rounded-lg">
+      <div class="px-4 py-5 sm:p-6">
+        <h2 class="text-2xl font-semibold text-gray-900 mb-4">Hiragana Coach</h2>
+        <p class="mb-4">Übe Hiragana mit einem interaktiven Drag-and-Drop-Spiel und verbessere deine Schriftzeichenkenntnisse.</p>
+        <a href="{{ url_for('hiragana.learn_hiragana') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700">
+          Zum Hiragana Coach
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="bg-gray-100 overflow-hidden shadow rounded-lg">
+      <div class="px-4 py-5 sm:p-6">
+        <h2 class="text-2xl font-semibold text-gray-900 mb-4">Wortschatz & Konjugations-Coach</h2>
+        <p class="mb-4">Erweitere deinen japanischen Wortschatz und übe Konjugationen mit unserem interaktiven Trainer.</p>
+        <button disabled class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-gray-500 bg-gray-300 cursor-not-allowed">
+          Coming Soon
+        </button>
+      </div>
+    </div>
+
+    <div class="bg-gray-100 overflow-hidden shadow rounded-lg">
+      <div class="px-4 py-5 sm:p-6">
+        <h2 class="text-2xl font-semibold text-gray-900 mb-4">Partikel Coach</h2>
+        <p class="mb-4">Meistere japanische Partikel mit gezielten Übungen und Erklärungen.</p>
+        <button disabled class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-gray-500 bg-gray-300 cursor-not-allowed">
+          Coming Soon
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

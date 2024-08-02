@@ -1,0 +1,162 @@
+{% extends "layout.html" %}
+
+{% block title %}Japanische Partikel Übung{% endblock %}
+
+{% block content %}
+<audio id="correctSound" src="/static/quiz_correct_answer.mp3"></audio>
+
+<div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+    <div class="p-8">
+        <h2 class="text-2xl font-semibold mb-4">Japanische Partikel Übung</h2>
+        <div id="question-container">
+            <p id="question-text" class="text-lg mb-4 font-medium text-gray-700"></p>
+            <p id="sentence" class="text-xl mb-2 font-medium text-gray-800"></p>
+            <p id="translation" class="text-lg mb-4 text-gray-600 italic"></p>
+            <div id="particle-slots" class="flex space-x-2 mb-4"></div>
+            <div id="available-particles" class="flex flex-wrap justify-start space-x-2 mb-4"></div>
+        </div>
+        <div id="result-container" class="mb-6 hidden">
+            <p id="result-text" class="text-xl font-bold text-center mb-4"></p>
+        </div>
+        <div class="mt-6 space-y-2">
+            <button id="next-question" class="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                Nächste Frage
+            </button>
+        </div>
+        <div id="particle-explanations" class="mt-6">
+            <h3 class="text-xl font-semibold mb-2 text-indigo-700">Partikel-Erklärungen</h3>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentExercise = null;
+let score = 0;
+let placedParticles = [];
+
+function playCorrectSound() {
+    const audio = document.getElementById('correctSound');
+    audio.play();
+}
+
+function loadQuestion() {
+    fetch('/get_particle_question')
+        .then(response => response.json())
+        .then(data => {
+            currentExercise = data;
+            placedParticles = Array(currentExercise.correct.length).fill(null);
+
+            document.getElementById('question-text').textContent = "Ziehe die richtigen Partikel in die Lücken:";
+            document.getElementById('sentence').innerHTML = createSentenceHTML(currentExercise.sentence);
+            document.getElementById('translation').textContent = currentExercise.translation;
+
+            const particleSlots = document.getElementById('particle-slots');
+            particleSlots.innerHTML = '';
+            for (let i = 0; i < currentExercise.correct.length; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'w-10 h-10 border-2 border-dashed border-gray-400 rounded-md flex items-center justify-center';
+                slot.dataset.index = i;
+                slot.ondragover = handleDragOver;
+                slot.ondrop = handleDrop;
+                particleSlots.appendChild(slot);
+            }
+
+            const availableParticles = document.getElementById('available-particles');
+            availableParticles.innerHTML = '';
+            currentExercise.particles.forEach(particle => {
+                const particleElement = document.createElement('div');
+                particleElement.className = 'w-10 h-10 border-2 border-indigo-500 rounded-md text-center cursor-move flex items-center justify-center text-lg font-bold bg-indigo-100 text-indigo-700 hover:bg-indigo-200 transition-colors';
+                particleElement.textContent = particle;
+                particleElement.draggable = true;
+                particleElement.ondragstart = handleDragStart;
+                availableParticles.appendChild(particleElement);
+            });
+
+            document.getElementById('question-container').classList.remove('hidden');
+            document.getElementById('result-container').classList.add('hidden');
+        });
+}
+
+function createSentenceHTML(sentence) {
+    return sentence.split('__').map((part, index, array) => {
+        if (index === array.length - 1) {
+            return part;
+        }
+        return part + '<span class="inline-block w-10"></span>';
+    }).join('');
+}
+
+function handleDragStart(e) {
+    e.dataTransfer.setData('text/plain', e.target.textContent);
+}
+
+function handleDragOver(e) {
+    e.preventDefault();
+}
+
+function handleDrop(e) {
+    e.preventDefault();
+    const particle = e.dataTransfer.getData('text');
+    const slotIndex = e.target.dataset.index;
+
+    if (placedParticles[slotIndex] === null) {
+        placedParticles[slotIndex] = particle;
+        e.target.textContent = particle;
+        e.target.classList.add('bg-indigo-100', 'border-indigo-500');
+        e.target.classList.remove('border-dashed', 'border-gray-400');
+
+        const particleElement = Array.from(document.getElementById('available-particles').children)
+            .find(el => el.textContent === particle);
+        if (particleElement) {
+            particleElement.remove();
+        }
+
+        checkAnswer();
+    }
+}
+
+function checkAnswer() {
+    if (placedParticles.every(p => p !== null)) {
+        const isCorrect = placedParticles.every((p, i) => p === currentExercise.correct[i]);
+        if (isCorrect) {
+            score++;
+            playCorrectSound();
+            showResult(true);
+        } else {
+            showResult(false);
+        }
+    }
+}
+
+function showResult(isCorrect) {
+    const resultText = document.getElementById('result-text');
+    if (isCorrect) {
+        resultText.textContent = 'Richtig! Gut gemacht!';
+        resultText.className = 'text-green-600 font-bold text-xl mb-4';
+    } else {
+        resultText.textContent = 'Leider falsch. Versuche es noch einmal!';
+        resultText.className = 'text-red-600 font-bold text-xl mb-4';
+    }
+    document.getElementById('question-container').classList.add('hidden');
+    document.getElementById('result-container').classList.remove('hidden');
+}
+
+document.getElementById('next-question').addEventListener('click', loadQuestion);
+
+// Load particle explanations
+fetch('/get_particle_explanations')
+    .then(response => response.json())
+    .then(data => {
+        const explanationsContainer = document.getElementById('particle-explanations');
+        Object.entries(data).forEach(([particle, explanation]) => {
+            const p = document.createElement('p');
+            p.className = 'mb-2 text-gray-700';
+            p.innerHTML = `<span class="font-bold text-indigo-600">${particle}</span>: ${explanation}`;
+            explanationsContainer.appendChild(p);
+        });
+    });
+
+// Load the first question when the page loads
+loadQuestion();
+</script>
+{% endblock %}

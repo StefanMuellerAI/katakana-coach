@@ -1,0 +1,144 @@
+{% extends "layout.html" %}
+{% block title %}Vokabeln und Konjugationen Lernen{% endblock %}
+{% block content %}
+<audio id="correctSound" src="/static/quiz_correct_answer.mp3"></audio>
+
+<!-- WanaKana Bibliothek einbinden -->
+<script src="https://unpkg.com/wanakana"></script>
+
+<div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-4xl">
+    <div class="p-8">
+        <h2 class="text-2xl font-semibold mb-4">Lerne japanische Vokabeln und ihre Konjugationen!</h2>
+        <div id="question-container">
+<p id="question" class="text-gray-600 mb-4"></p>
+            <input type="text" id="answer-input" class="w-full p-2 border rounded mb-4 text-2xl text-center">
+        </div>
+        <div id="result-container" class="mb-6 hidden">
+            <p id="result-text" class="text-xl font-bold text-center mb-4"></p>
+            <p id="correct-answer" class="text-gray-600 text-center"></p>
+        </div>
+        <div class="mt-6 space-y-2">
+            <button id="next-question" class="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                Nächste Frage
+            </button>
+        </div>
+    </div>
+</div>
+<script src="https://unpkg.com/wanakana"></script>
+<script>
+let currentQuestion = null;
+let isHiraganaInput = false;
+let isBound = false;
+
+function playCorrectSound() {
+    const audio = document.getElementById('correctSound');
+    audio.play();
+}
+
+function loadQuestion() {
+    fetch('/get_vocabulary_question')
+        .then(response => response.json())
+        .then(data => {
+            currentQuestion = data;
+            const questionElement = document.getElementById('question');
+            const answerInput = document.getElementById('answer-input');
+            const wordContext = document.getElementById('word-context');
+
+            if (!answerInput) {
+                console.error('Answer input element not found');
+                return;
+            }
+
+            questionElement.textContent = data.question;
+
+            answerInput.value = '';
+
+            isHiraganaInput = data.question.includes('in Hiragana');
+
+            try {
+                if (isBound) {
+                    wanakana.unbind(answerInput);
+                    isBound = false;
+                }
+
+                if (isHiraganaInput) {
+                    wanakana.bind(answerInput);
+                    isBound = true;
+                }
+            } catch (error) {
+                console.error('Error with WanaKana:', error);
+            }
+
+            document.getElementById('question-container').classList.remove('hidden');
+            document.getElementById('result-container').classList.add('hidden');
+            answerInput.focus();
+        })
+        .catch(error => {
+            console.error('Error loading question:', error);
+            alert('Ein Fehler ist aufgetreten. Bitte versuche es später erneut.');
+        });
+}
+
+function checkAnswer() {
+    let userAnswer = document.getElementById('answer-input').value.trim();
+
+    if (isHiraganaInput) {
+        userAnswer = wanakana.toHiragana(userAnswer);
+    } else {
+        userAnswer = userAnswer.toLowerCase();
+    }
+
+    const isCorrect = userAnswer === currentQuestion.correct_answer.toLowerCase();
+
+    showResult(isCorrect);
+
+    if (isCorrect) {
+        playCorrectSound();
+    }
+}
+
+function showResult(isCorrect) {
+    const resultText = document.getElementById('result-text');
+    const correctAnswer = document.getElementById('correct-answer');
+
+    if (isCorrect) {
+        resultText.textContent = 'Richtig! Gut gemacht!';
+        resultText.className = 'text-green-600 font-bold text-xl mb-4';
+    } else {
+        resultText.textContent = 'Leider falsch.';
+        resultText.className = 'text-red-600 font-bold text-xl mb-2';
+    }
+    correctAnswer.textContent = `Die richtige Antwort ist: ${currentQuestion.correct_answer}`;
+
+    document.getElementById('question-container').classList.add('hidden');
+    document.getElementById('result-container').classList.remove('hidden');
+}
+
+function setupEventListeners() {
+    const answerInput = document.getElementById('answer-input');
+    const nextQuestionButton = document.getElementById('next-question');
+
+    if (answerInput) {
+        answerInput.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                if (document.getElementById('result-container').classList.contains('hidden')) {
+                    checkAnswer();
+                } else {
+                    loadQuestion();
+                }
+            }
+        });
+    }
+
+    if (nextQuestionButton) {
+        nextQuestionButton.addEventListener('click', loadQuestion);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    setupEventListeners();
+    loadQuestion();
+});
+</script>
+
+{% endblock %}

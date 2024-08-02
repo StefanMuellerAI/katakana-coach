@@ -1,0 +1,218 @@
+{% extends "layout.html" %}
+
+{% block title %}Kanji Lernen{% endblock %}
+
+{% block content %}
+<audio id="correctSound" src="/static/quiz_correct_answer.mp3"></audio>
+
+<div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+    <div class="p-8">
+        <h2 class="text-3xl font-semibold mb-4">Kannst du das Kanji lesen? Probiere es aus!</h2>
+        <div id="question-container">
+            <p id="question-type" class="text-xl text-gray-600 mb-4"></p>
+            <p id="question" class="text-5xl font-bold text-center mb-6"></p>
+            <p id="hint" class="text-xl text-gray-500 text-center mb-6 italic"></p>
+            <div id="options" class="grid grid-cols-3 gap-4 mb-4"></div>
+            <input type="text" id="answer-input" class="w-full p-2 border rounded mb-4 text-3xl text-center" style="display: none;">
+            <input type="text" id="hiragana-input" class="w-full p-2 border rounded mb-4 text-3xl text-center" style="display: none;">
+        </div>
+        <div id="result-container" class="mb-6 hidden">
+            <p id="result-text" class="text-2xl font-bold text-center mb-4"></p>
+            <p id="correct-answer" class="text-xl text-gray-600 text-center"></p>
+            <p id="example" class="text-xl text-gray-600 text-center mt-2"></p>
+        </div>
+        <div class="mt-6">
+            <button id="next-question" class="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-4 rounded text-xl">
+                Nächste Frage
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/wanakana"></script>
+<script>
+let currentQuestion = null;
+
+function playCorrectSound() {
+    const audio = document.getElementById('correctSound');
+    audio.play().catch(e => console.error('Error playing sound:', e));
+}
+
+function loadQuestion() {
+    fetch('/get_kanji_question')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Received data:", data); // For debugging
+            if (!data.question || !data.correct_answer) {
+                throw new Error('Invalid data format: Missing question or correct_answer');
+            }
+
+            currentQuestion = data;
+            const questionType = document.getElementById('question-type');
+            const questionElement = document.getElementById('question');
+            const hintElement = document.getElementById('hint');
+            const optionsContainer = document.getElementById('options');
+            const answerInput = document.getElementById('answer-input');
+            const hiraganaInput = document.getElementById('hiragana-input');
+
+            // Reset input fields and hide hint
+            answerInput.value = '';
+            hiraganaInput.value = '';
+            hintElement.textContent = '';
+            hintElement.style.display = 'none';
+
+            optionsContainer.innerHTML = '';
+            answerInput.style.display = 'none';
+            hiraganaInput.style.display = 'none';
+
+            switch (data.mode) {
+                case 'kanji_to_hiragana':
+                    questionType.textContent = "Wie lautet die Hiragana-Lesung für dieses Kanji-Wort?";
+                    questionElement.innerHTML = `${data.question} <span class="text-2xl text-gray-500">(${data.meaning})</span>`;
+                    break;
+                case 'deutsch_to_kanji':
+                    questionType.textContent = "Welches Kanji-Wort hat diese Bedeutung?";
+                    questionElement.textContent = data.question;
+                    break;
+                case 'hiragana_to_kanji':
+                    questionType.textContent = "Welches Kanji-Wort entspricht dieser Hiragana-Lesung?";
+                    questionElement.innerHTML = `${data.question} <span class="text-2xl text-gray-500">(${data.meaning})</span>`;
+                    break;
+                case 'hiragana_to_deutsch':
+                    questionType.textContent = "Was bedeutet dieses Wort in Hiragana?";
+                    questionElement.innerHTML = `${data.question} <span class="text-3xl text-gray-500">(${data.kanji})</span>`;
+                    hintElement.textContent = data.hint;
+                    hintElement.style.display = 'block';
+                    answerInput.style.display = 'block';
+                    break;
+                case 'deutsch_to_hiragana':
+                    questionType.textContent = "Wie lautet die Hiragana-Lesung für diese Bedeutung?";
+                    questionElement.textContent = data.question;
+                    hiraganaInput.style.display = 'block';
+                    wanakana.bind(hiraganaInput);
+                    break;
+                default:
+                    throw new Error('Unknown mode: ' + data.mode);
+            }
+
+            if (data.options && data.options.length > 0) {
+                data.options.forEach((option, index) => {
+                    const button = document.createElement('button');
+                    button.innerHTML = `<span class="text-4xl">${option}</span>`;
+                    button.className = 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded h-24 flex items-center justify-center';
+                    button.onclick = () => checkAnswer(option);
+                    optionsContainer.appendChild(button);
+                });
+            }
+
+            document.getElementById('question-container').classList.remove('hidden');
+            document.getElementById('result-container').classList.add('hidden');
+        })
+        .catch(error => {
+            console.error('Error loading question:', error);
+            alert('Ein Fehler ist aufgetreten. Bitte versuche es später erneut.');
+        });
+}
+
+function checkAnswer(answer) {
+    let userAnswer;
+    if (currentQuestion.mode === 'hiragana_to_deutsch') {
+        userAnswer = document.getElementById('answer-input').value.trim().toLowerCase();
+    } else if (currentQuestion.mode === 'deutsch_to_hiragana') {
+        userAnswer = document.getElementById('hiragana-input').value.trim();
+    } else {
+        userAnswer = answer;
+    }
+
+    fetch('/check_kanji_answer', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            user_answer: userAnswer,
+            correct_answer: currentQuestion.correct_answer,
+            mode: currentQuestion.mode
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        showResult(data.is_correct, data.correct_answer);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Ein Fehler ist aufgetreten. Bitte versuche es später erneut.');
+    });
+}
+
+function showResult(isCorrect, correctAnswer) {
+    const resultText = document.getElementById('result-text');
+    const correctAnswerElement = document.getElementById('correct-answer');
+    const example = document.getElementById('example');
+
+    if (isCorrect) {
+        resultText.textContent = 'Richtig! Gut gemacht!';
+        resultText.className = 'text-green-600 font-bold text-2xl mb-4';
+        correctAnswerElement.textContent = '';
+        playCorrectSound();
+    } else {
+        resultText.textContent = 'Leider falsch.';
+        resultText.className = 'text-red-600 font-bold text-2xl mb-2';
+        correctAnswerElement.textContent = `Die richtige Antwort ist: ${correctAnswer}`;
+    }
+
+    example.textContent = currentQuestion.example || '';
+
+    document.getElementById('question-container').classList.add('hidden');
+    document.getElementById('result-container').classList.remove('hidden');
+}
+
+document.getElementById('next-question').addEventListener('click', loadQuestion);
+
+document.getElementById('answer-input').addEventListener('keyup', function(event) {
+    if (event.key === 'Enter') {
+        checkAnswer(this.value);
+    }
+});
+
+document.getElementById('hiragana-input').addEventListener('keyup', function(event) {
+    if (event.key === 'Enter') {
+        checkAnswer(this.value);
+    }
+});
+
+document.addEventListener('keydown', function(event) {
+    if (currentQuestion) {
+        if (event.key >= '1' && event.key <= '3') {
+            const index = parseInt(event.key) - 1;
+            const options = document.querySelectorAll('#options button');
+            if (index < options.length) {
+                options[index].click();
+            }
+        } else if (event.key === 'Enter') {
+            if (document.getElementById('result-container').classList.contains('hidden')) {
+                if (currentQuestion.mode === 'hiragana_to_deutsch' || currentQuestion.mode === 'deutsch_to_hiragana') {
+                    checkAnswer('');
+                } else {
+                    const firstOption = document.querySelector('#options button');
+                    if (firstOption) {
+                        firstOption.click();
+                    }
+                }
+            } else {
+                loadQuestion();
+            }
+        }
+    }
+});
+
+// Load the first question when the page loads
+loadQuestion();
+</script>
+
+{% endblock %}

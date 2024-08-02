@@ -1,0 +1,62 @@
+{
+  "いく": {
+    "hiragana": "いく",
+    "meaning": "gehen",
+    "type": "verb",
+    "conjugations": {
+      "present": "いきます",
+      "past": "いきました",
+      "negative": "いきません",
+      "negative_past": "いきませんでした"
+    }
+  },
+  "たべる": {
+    "hiragana": "たべる",
+    "meaning": "essen",
+    "type": "verb",
+    "conjugations": {
+      "present": "たべます",
+      "past": "たべました",
+      "negative": "たべません",
+      "negative_past": "たべませんでした"
+    }
+  },
+  "みる": {
+    "hiragana": "みる",
+    "meaning": "sehen",
+    "type": "verb",
+    "conjugations": {
+      "present": "みます",
+      "past": "みました",
+      "negative": "みません",
+      "negative_past": "みませんでした"
+    }
+  },
+  "うつくしい": {
+    "hiragana": "うつくしい",
+    "meaning": "schön",
+    "type": "adjective",
+    "conjugations": {
+      "present": "うつくしいです",
+      "past": "うつくしかったです",
+      "negative": "うつくしくないです",
+      "negative_past": "うつくしくなかったです"
+    }
+  },
+  "たのしい": {
+    "hiragana": "たのしい",
+    "meaning": "fröhlich",
+    "type": "adjective",
+    "conjugations": {
+      "present": "たのしいです",
+      "past": "たのしかったです",
+      "negative": "たのしくないです",
+      "negative_past": "たのしくなかったです"
+    }
+  },
+  "ほん": {
+    "hiragana": "ほん",
+    "meaning": "Buch",
+    "type": "noun"
+  }
+}
