@@ -9,9 +9,6 @@ from blueprints.vocabulary import vocabulary_bp
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
-# Load JSON data
-japanese_dict, japanese_words, kanji_list, hiragana_dict, japanese_vocabulary_conjugations = load_json_data()
-
 app.register_blueprint(katakana_bp)
 app.register_blueprint(kanji_bp)
 app.register_blueprint(hiragana_bp)

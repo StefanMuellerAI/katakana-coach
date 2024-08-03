@@ -16,4 +16,7 @@ def load_json_data():
     with open('static/japanese_vocabulary_conjugations.json', 'r', encoding='utf-8') as f:
         japanese_vocabulary_conjugations = json.load(f)
 
-    return japanese_dict, japanese_words, kanji_list, hiragana_dict, japanese_vocabulary_conjugations
+    with open('static/kanji_sentences.json', 'r', encoding='utf-8') as file:
+        kanji_sentences = json.load(file)
+
+    return japanese_dict, japanese_words, kanji_list, hiragana_dict, japanese_vocabulary_conjugations, kanji_sentences

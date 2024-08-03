@@ -4,7 +4,7 @@ from data_loader import load_json_data
 
 hiragana_bp = Blueprint('hiragana', __name__, template_folder='templates')
 
-_, _, _, hiragana_dict, _ = load_json_data()
+_, _, _, hiragana_dict, _, _ = load_json_data()
 
 @hiragana_bp.route('/hiragana')
 def learn_hiragana():

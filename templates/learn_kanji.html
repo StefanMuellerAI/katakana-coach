@@ -13,6 +13,11 @@
             <p id="question" class="text-5xl font-bold text-center mb-6"></p>
             <p id="hint" class="text-xl text-gray-500 text-center mb-6 italic"></p>
             <div id="options" class="grid grid-cols-3 gap-4 mb-4"></div>
+            <div id="sentence-container" class="mb-4" style="display: none;">
+                <p id="german-sentence" class="text-xl text-gray-600 mb-2"></p>
+                <div id="kanji-options" class="flex justify-center gap-4 mb-4"></div>
+                <div id="sentence-slots" class="flex justify-center gap-4 mb-4"></div>
+            </div>
             <input type="text" id="answer-input" class="w-full p-2 border rounded mb-4 text-3xl text-center" style="display: none;">
             <input type="text" id="hiragana-input" class="w-full p-2 border rounded mb-4 text-3xl text-center" style="display: none;">
         </div>
@@ -32,6 +37,7 @@
 <script src="https://unpkg.com/wanakana"></script>
 <script>
 let currentQuestion = null;
+let draggedKanji = null;
 
 function playCorrectSound() {
     const audio = document.getElementById('correctSound');
@@ -40,18 +46,9 @@ function playCorrectSound() {
 
 function loadQuestion() {
     fetch('/get_kanji_question')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
-            }
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
-            console.log("Received data:", data); // For debugging
-            if (!data.question || !data.correct_answer) {
-                throw new Error('Invalid data format: Missing question or correct_answer');
-            }
-
+            console.log("Received data:", JSON.stringify(data)); // Debugging
             currentQuestion = data;
             const questionType = document.getElementById('question-type');
             const questionElement = document.getElementById('question');
@@ -59,33 +56,49 @@ function loadQuestion() {
             const optionsContainer = document.getElementById('options');
             const answerInput = document.getElementById('answer-input');
             const hiraganaInput = document.getElementById('hiragana-input');
+            const sentenceContainer = document.getElementById('sentence-container');
 
-            // Reset input fields and hide hint
+            // Reset and hide all elements
+            [questionElement, hintElement, optionsContainer, answerInput, hiraganaInput, sentenceContainer].forEach(el => el.style.display = 'none');
+            optionsContainer.innerHTML = '';
             answerInput.value = '';
             hiraganaInput.value = '';
             hintElement.textContent = '';
-            hintElement.style.display = 'none';
-
-            optionsContainer.innerHTML = '';
-            answerInput.style.display = 'none';
-            hiraganaInput.style.display = 'none';
 
             switch (data.mode) {
+                case 'sentence_completion':
+                    if (!data.question || !data.kanji || !data.german || !data.tooltip || !data.correct_answer) {
+                        console.error("Invalid data for sentence completion:", data);
+                        alert("Fehler beim Laden der Satzvervollständigungsfrage.");
+                        return;
+                    }
+                    questionType.textContent = "Vervollständige den Satz mit den richtigen Kanji:";
+                    sentenceContainer.style.display = 'block';
+                    document.getElementById('german-sentence').textContent = data.german || '';
+                    setupSentenceCompletion(data.question, data.kanji);
+                    break;
                 case 'kanji_to_hiragana':
                     questionType.textContent = "Wie lautet die Hiragana-Lesung für dieses Kanji-Wort?";
                     questionElement.innerHTML = `${data.question} <span class="text-2xl text-gray-500">(${data.meaning})</span>`;
+                    questionElement.style.display = 'block';
+                    setupMultipleChoice(data.options);
                     break;
                 case 'deutsch_to_kanji':
                     questionType.textContent = "Welches Kanji-Wort hat diese Bedeutung?";
                     questionElement.textContent = data.question;
+                    questionElement.style.display = 'block';
+                    setupMultipleChoice(data.options);
                     break;
                 case 'hiragana_to_kanji':
                     questionType.textContent = "Welches Kanji-Wort entspricht dieser Hiragana-Lesung?";
                     questionElement.innerHTML = `${data.question} <span class="text-2xl text-gray-500">(${data.meaning})</span>`;
+                    questionElement.style.display = 'block';
+                    setupMultipleChoice(data.options);
                     break;
                 case 'hiragana_to_deutsch':
                     questionType.textContent = "Was bedeutet dieses Wort in Hiragana?";
                     questionElement.innerHTML = `${data.question} <span class="text-3xl text-gray-500">(${data.kanji})</span>`;
+                    questionElement.style.display = 'block';
                     hintElement.textContent = data.hint;
                     hintElement.style.display = 'block';
                     answerInput.style.display = 'block';
@@ -93,21 +106,14 @@ function loadQuestion() {
                 case 'deutsch_to_hiragana':
                     questionType.textContent = "Wie lautet die Hiragana-Lesung für diese Bedeutung?";
                     questionElement.textContent = data.question;
+                    questionElement.style.display = 'block';
                     hiraganaInput.style.display = 'block';
                     wanakana.bind(hiraganaInput);
                     break;
                 default:
-                    throw new Error('Unknown mode: ' + data.mode);
-            }
-
-            if (data.options && data.options.length > 0) {
-                data.options.forEach((option, index) => {
-                    const button = document.createElement('button');
-                    button.innerHTML = `<span class="text-4xl">${option}</span>`;
-                    button.className = 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded h-24 flex items-center justify-center';
-                    button.onclick = () => checkAnswer(option);
-                    optionsContainer.appendChild(button);
-                });
+                    console.error('Unknown mode:', data.mode);
+                    alert("Unbekannter Fragemodus.");
+                    return;
             }
 
             document.getElementById('question-container').classList.remove('hidden');
@@ -119,9 +125,140 @@ function loadQuestion() {
         });
 }
 
+function setupMultipleChoice(options) {
+    if (!Array.isArray(options)) {
+        console.error("Invalid options for multiple choice:", options);
+        return;
+    }
+    const optionsContainer = document.getElementById('options');
+    optionsContainer.style.display = 'grid';
+    options.forEach((option, index) => {
+        const button = document.createElement('button');
+        button.innerHTML = `<span class="text-5xl">${option}</span>`; // Increased font size
+        button.className = 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded h-24 flex items-center justify-center';
+        button.onclick = () => checkAnswer(option);
+        optionsContainer.appendChild(button);
+    });
+}
+
+function setupSentenceCompletion(sentence, kanjiOptions) {
+    console.log("Setting up sentence completion with:", sentence, kanjiOptions);
+    if (!sentence || !Array.isArray(kanjiOptions) || !currentQuestion.tooltip) {
+        console.error("Invalid data for sentence completion:", { sentence, kanjiOptions, tooltip: currentQuestion.tooltip });
+        return;
+    }
+    const kanjiOptionsContainer = document.getElementById('kanji-options');
+    const sentenceSlotsContainer = document.getElementById('sentence-slots');
+    kanjiOptionsContainer.innerHTML = '';
+    sentenceSlotsContainer.innerHTML = '';
+
+    kanjiOptions.forEach((kanji, index) => {
+        createKanjiElement(kanji, kanjiOptionsContainer, currentQuestion.tooltip[index]);
+    });
+
+    const parts = sentence.split('＿＿');
+    parts.forEach((part, index) => {
+        if (index < kanjiOptions.length) {
+            const slot = document.createElement('div');
+            slot.className = 'border-2 border-dashed border-gray-400 w-20 h-20 flex items-center justify-center transition-colors duration-300';
+            slot.addEventListener('dragover', dragOver);
+            slot.addEventListener('drop', drop);
+            sentenceSlotsContainer.appendChild(slot);
+        }
+        const textNode = document.createTextNode(part);
+        sentenceSlotsContainer.appendChild(textNode);
+    });
+}
+
+function createKanjiElement(kanji, container, tooltip) {
+    const wrapperElement = document.createElement('div');
+    wrapperElement.className = 'relative group';
+
+    const kanjiElement = document.createElement('div');
+    kanjiElement.textContent = kanji;
+    kanjiElement.className = 'bg-blue-500 text-white p-3 rounded cursor-move text-4xl';
+    kanjiElement.draggable = true;
+    kanjiElement.addEventListener('dragstart', dragStart);
+
+    wrapperElement.appendChild(kanjiElement);
+
+    // Fügen Sie den Tooltip als separates Element hinzu
+    if (tooltip) {
+        const tooltipElement = document.createElement('span');
+        tooltipElement.textContent = tooltip;
+        tooltipElement.className = 'absolute bottom-full left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-sm rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none';
+        wrapperElement.appendChild(tooltipElement);
+    }
+
+    container.appendChild(wrapperElement);
+}
+function dragStart(e) {
+    draggedKanji = e.target;
+    e.dataTransfer.setData('text/plain', e.target.textContent);
+}
+
+function dragOver(e) {
+    e.preventDefault();
+}
+
+function drop(e) {
+    e.preventDefault();
+    const slot = e.target.closest('.border-dashed');
+    if (slot && !slot.hasChildNodes()) {
+        const kanjiElement = document.createElement('div');
+        kanjiElement.textContent = draggedKanji.textContent;
+        kanjiElement.className = 'bg-blue-500 text-white p-2 rounded text-3xl';
+        slot.appendChild(kanjiElement);
+
+        const isCorrect = isCorrectPlacement(slot, kanjiElement.textContent);
+        console.log(`Dropped ${kanjiElement.textContent} in slot. Correct: ${isCorrect}`);
+
+        if (isCorrect) {
+            slot.classList.add('border-green-500');
+            draggedKanji.parentElement.remove(); // Entfernt das ganze Wrapper-Element
+        } else {
+            slot.classList.add('border-red-500');
+            setTimeout(() => {
+                slot.classList.remove('border-red-500');
+                slot.removeChild(kanjiElement);
+                returnKanjiToOptions(draggedKanji);
+            }, 500);
+        }
+
+        if (allKanjiPlaced()) {
+            setTimeout(checkAnswer, 500);
+        }
+    }
+}
+
+function returnKanjiToOptions(kanjiElement) {
+    const kanjiOptionsContainer = document.getElementById('kanji-options');
+    if (!kanjiOptionsContainer.contains(kanjiElement.parentElement)) {
+        const index = Array.from(kanjiOptionsContainer.children).findIndex(
+            child => child.firstChild.textContent === kanjiElement.textContent
+        );
+        const tooltip = currentQuestion.tooltip && currentQuestion.tooltip[index];
+        createKanjiElement(kanjiElement.textContent, kanjiOptionsContainer, tooltip);
+    }
+}
+
+function isCorrectPlacement(slot, kanji) {
+    const slots = Array.from(slot.parentNode.children).filter(child => child.classList.contains('border-dashed'));
+    const slotIndex = slots.indexOf(slot);
+    console.log(`Checking placement: slot ${slotIndex}, kanji ${kanji}, correct answer: ${currentQuestion.correct_answer[slotIndex]}`);
+    return currentQuestion.correct_answer[slotIndex] === kanji;
+}
+
+function allKanjiPlaced() {
+    const slots = document.querySelectorAll('#sentence-slots .border-dashed');
+    return Array.from(slots).every(slot => slot.firstChild && slot.classList.contains('border-green-500'));
+}
 function checkAnswer(answer) {
     let userAnswer;
-    if (currentQuestion.mode === 'hiragana_to_deutsch') {
+    if (currentQuestion.mode === 'sentence_completion') {
+        const slots = document.querySelectorAll('#sentence-slots .border-dashed > div');
+        userAnswer = Array.from(slots).map(slot => slot.textContent);
+    } else if (currentQuestion.mode === 'hiragana_to_deutsch') {
         userAnswer = document.getElementById('answer-input').value.trim().toLowerCase();
     } else if (currentQuestion.mode === 'deutsch_to_hiragana') {
         userAnswer = document.getElementById('hiragana-input').value.trim();
@@ -142,7 +279,7 @@ function checkAnswer(answer) {
     })
     .then(response => response.json())
     .then(data => {
-        showResult(data.is_correct, data.correct_answer);
+        showResult(data.is_correct, data.correct_answer, data.feedback);
     })
     .catch(error => {
         console.error('Error:', error);
@@ -150,7 +287,7 @@ function checkAnswer(answer) {
     });
 }
 
-function showResult(isCorrect, correctAnswer) {
+function showResult(isCorrect, correctAnswer, feedback) {
     const resultText = document.getElementById('result-text');
     const correctAnswerElement = document.getElementById('correct-answer');
     const example = document.getElementById('example');
@@ -163,7 +300,7 @@ function showResult(isCorrect, correctAnswer) {
     } else {
         resultText.textContent = 'Leider falsch.';
         resultText.className = 'text-red-600 font-bold text-2xl mb-2';
-        correctAnswerElement.textContent = `Die richtige Antwort ist: ${correctAnswer}`;
+        correctAnswerElement.textContent = feedback || `Die richtige Antwort ist: ${correctAnswer}`;
     }
 
     example.textContent = currentQuestion.example || '';
@@ -198,6 +335,8 @@ document.addEventListener('keydown', function(event) {
             if (document.getElementById('result-container').classList.contains('hidden')) {
                 if (currentQuestion.mode === 'hiragana_to_deutsch' || currentQuestion.mode === 'deutsch_to_hiragana') {
                     checkAnswer('');
+                } else if (currentQuestion.mode === 'sentence_completion') {
+                    checkAnswer();
                 } else {
                     const firstOption = document.querySelector('#options button');
                     if (firstOption) {
@@ -214,5 +353,4 @@ document.addEventListener('keydown', function(event) {
 // Load the first question when the page loads
 loadQuestion();
 </script>
-
 {% endblock %}

@@ -4,7 +4,7 @@ from data_loader import load_json_data
 
 vocabulary_bp = Blueprint('vocabulary', __name__, template_folder='templates')
 
-_, _, _, _, japanese_vocabulary_conjugations = load_json_data()
+_, _, _, _, japanese_vocabulary_conjugations, _, = load_json_data()
 
 @vocabulary_bp.route('/get_vocabulary_data')
 def get_vocabulary_data():

@@ -4,7 +4,7 @@ from data_loader import load_json_data
 
 katakana_bp = Blueprint('katakana', __name__, template_folder='templates')
 
-japanese_dict, japanese_words, _, _, _ = load_json_data()
+japanese_dict, japanese_words, _, _, _, _ = load_json_data()
 
 @katakana_bp.route('/katakana')
 def learn_katakana():

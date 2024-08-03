@@ -1,0 +1,373 @@
+[
+{
+"japanese": "私は＿＿に＿＿で行きます。",
+"german": "Ich gehe mit dem Zug zur Schule.",
+"kanji": ["電車", "学校"],
+"level": 5,
+"tooltip": ["でんしゃ", "がっこう"]
+},
+{
+"japanese": "＿＿は＿＿の上にあります。",
+"german": "Das Buch ist auf dem Tisch.",
+"kanji": ["本", "机"],
+"level": 5,
+"tooltip": ["ほん", "つくえ"]
+},
+{
+"japanese": "＿＿に＿＿を食べます。",
+"german": "Ich esse Eier zum Frühstück.",
+"kanji": ["朝", "卵"],
+"level": 5,
+"tooltip": ["あさ", "たまご"]
+},
+{
+"japanese": "＿＿で＿＿を買います。",
+"german": "Ich kaufe ein Buch im Geschäft.",
+"kanji": ["店", "本"],
+"level": 5,
+"tooltip": ["みせ", "ほん"]
+},
+{
+"japanese": "＿＿から＿＿まで働きます。",
+"german": "Ich arbeite von morgens bis abends.",
+"kanji": ["朝", "夜"],
+"level": 5,
+"tooltip": ["あさ", "よる"]
+},
+{
+"japanese": "＿＿で＿＿を見ます。",
+"german": "Ich sehe einen Film im Kino.",
+"kanji": ["映画館", "映画"],
+"level": 5,
+"tooltip": ["えいがかん", "えいが"]
+},
+{
+"japanese": "＿＿に＿＿があります。",
+"german": "Es gibt einen Park in der Stadt.",
+"kanji": ["町", "公園"],
+"level": 5,
+"tooltip": ["まち", "こうえん"]
+},
+{
+"japanese": "＿＿で＿＿を飲みます。",
+"german": "Ich trinke Tee im Café.",
+"kanji": ["喫茶店", "茶"],
+"level": 5,
+"tooltip": ["きっさてん", "ちゃ"]
+},
+{
+"japanese": "＿＿に＿＿を書きます。",
+"german": "Ich schreibe einen Brief an meinen Freund.",
+"kanji": ["友達", "手紙"],
+"level": 5,
+"tooltip": ["ともだち", "てがみ"]
+},
+{
+"japanese": "＿＿で＿＿を読みます。",
+"german": "Ich lese ein Buch in der Bibliothek.",
+"kanji": ["図書館", "本"],
+"level": 5,
+"tooltip": ["としょかん", "ほん"]
+},
+{
+"japanese": "＿＿に＿＿を着ます。",
+"german": "Ich trage einen Mantel im Winter.",
+"kanji": ["冬", "上着"],
+"level": 5,
+"tooltip": ["ふゆ", "うわぎ"]
+},
+{
+"japanese": "＿＿で＿＿をします。",
+"german": "Ich mache Sport im Park.",
+"kanji": ["公園", "運動"],
+"level": 5,
+"tooltip": ["こうえん", "うんどう"]
+},
+{
+"japanese": "＿＿に＿＿があります。",
+"german": "Es gibt einen Baum im Garten.",
+"kanji": ["庭", "木"],
+"level": 5,
+"tooltip": ["にわ", "き"]
+},
+{
+"japanese": "＿＿で＿＿を食べます。",
+"german": "Ich esse Sushi im Restaurant.",
+"kanji": ["料理店", "寿司"],
+"level": 5,
+"tooltip": ["りょうりてん", "すし"]
+},
+{
+"japanese": "＿＿に＿＿を持っていきます。",
+"german": "Ich bringe ein Geschenk zur Party.",
+"kanji": ["会", "贈り物"],
+"level": 5,
+"tooltip": ["かい", "おくりもの"]
+},
+{
+"japanese": "＿＿で＿＿を聞きます。",
+"german": "Ich höre Musik im Zimmer.",
+"kanji": ["部屋", "音楽"],
+"level": 5,
+"tooltip": ["へや", "おんがく"]
+},
+{
+"japanese": "＿＿に＿＿があります。",
+"german": "Es gibt einen Fluss in der Nähe.",
+"kanji": ["近く", "川"],
+"level": 5,
+"tooltip": ["ちかく", "かわ"]
+},
+{
+"japanese": "＿＿で＿＿を買います。",
+"german": "Ich kaufe Gemüse auf dem Markt.",
+"kanji": ["市場", "野菜"],
+"level": 5,
+"tooltip": ["いちば", "やさい"]
+},
+{
+"japanese": "＿＿に＿＿を置きます。",
+"german": "Ich stelle die Blumen auf den Tisch.",
+"kanji": ["机", "花"],
+"level": 5,
+"tooltip": ["つくえ", "はな"]
+},
+{
+"japanese": "＿＿で＿＿を見ます。",
+"german": "Ich sehe die Sterne am Himmel.",
+"kanji": ["空", "星"],
+"level": 5,
+"tooltip": ["そら", "ほし"]
+},
+{
+"japanese": "＿＿に＿＿を書きます。",
+"german": "Ich schreibe Notizen in mein Notizbuch.",
+"kanji": ["帳面", "メモ"],
+"level": 5,
+"tooltip": ["ちょうめん", "めも"]
+},
+{
+"japanese": "＿＿で＿＿をします。",
+"german": "Ich mache meine Hausaufgaben in der Bibliothek.",
+"kanji": ["図書館", "宿題"],
+"level": 5,
+"tooltip": ["としょかん", "しゅくだい"]
+},
+{
+"japanese": "＿＿に＿＿があります。",
+"german": "Es gibt einen Berg in der Ferne.",
+"kanji": ["遠く", "山"],
+"level": 5,
+"tooltip": ["とおく", "やま"]
+},
+{
+"japanese": "＿＿で＿＿を飲みます。",
+"german": "Ich trinke Kaffee im Büro.",
+"kanji": ["事務所", "珈琲"],
+"level": 5,
+"tooltip": ["じむしょ", "こーひー"]
+},
+{
+"japanese": "＿＿に＿＿を着ます。",
+"german": "Ich trage einen Kimono zum Festival.",
+"kanji": ["祭り", "着物"],
+"level": 5,
+"tooltip": ["まつり", "きもの"]
+},
+{
+"japanese": "＿＿で＿＿を食べます。",
+"german": "Ich esse Obst zum Nachtisch.",
+"kanji": ["デザート", "果物"],
+"level": 5,
+"tooltip": ["でざーと", "くだもの"]
+},
+{
+"japanese": "＿＿に＿＿があります。",
+"german": "Es gibt eine Katze im Haus.",
+"kanji": ["家", "猫"],
+"level": 5,
+"tooltip": ["いえ", "ねこ"]
+},
+{
+"japanese": "＿＿で＿＿を見ます。",
+"german": "Ich sehe Fische im Aquarium.",
+"kanji": ["水族館", "魚"],
+"level": 5,
+"tooltip": ["すいぞくかん", "さかな"]
+},
+{
+"japanese": "＿＿に＿＿を入れます。",
+"german": "Ich lege das Geld in die Tasche.",
+"kanji": ["財布", "お金"],
+"level": 5,
+"tooltip": ["さいふ", "おかね"]
+},
+{
+"japanese": "＿＿で＿＿をします。",
+"german": "Ich mache Einkäufe im Supermarkt.",
+"kanji": ["店", "買い物"],
+"level": 5,
+"tooltip": ["みせ", "かいもの"]
+},
+{
+"japanese": "＿＿に＿＿があります。",
+"german": "Es gibt einen Stift auf dem Schreibtisch.",
+"kanji": ["机", "鉛筆"],
+"level": 5,
+"tooltip": ["つくえ", "えんぴつ"]
+},
+{
+"japanese": "＿＿で＿＿を聞きます。",
+"german": "Ich höre Nachrichten im Radio.",
+"kanji": ["放送", "ニュース"],
+"level": 5,
+"tooltip": ["ほうそう", "にゅーす"]
+},
+{
+"japanese": "＿＿に＿＿を置きます。",
+"german": "Ich stelle das Buch ins Regal.",
+"kanji": ["本棚", "本"],
+"level": 5,
+"tooltip": ["ほんだな", "ほん"]
+},
+{
+"japanese": "＿＿で＿＿を見ます。",
+"german": "Ich sehe Tiere im Zoo.",
+"kanji": ["動物園", "動物"],
+"level": 5,
+"tooltip": ["どうぶつえん", "どうぶつ"]
+},
+{
+"japanese": "＿＿に＿＿を書きます。",
+"german": "Ich schreibe meinen Namen auf das Papier.",
+"kanji": ["紙", "名前"],
+"level": 5,
+"tooltip": ["かみ", "なまえ"]
+},
+{
+"japanese": "＿＿で＿＿をします。",
+"german": "Ich mache Übungen im Fitnessstudio.",
+"kanji": ["体育館", "運動"],
+"level": 5,
+"tooltip": ["たいいくかん", "うんどう"]
+},
+{
+"japanese": "＿＿に＿＿があります。",
+"german": "Es gibt einen Hund im Park.",
+"kanji": ["公園", "犬"],
+"level": 5,
+"tooltip": ["こうえん", "いぬ"]
+},
+{
+"japanese": "＿＿で＿＿を飲みます。",
+"german": "Ich trinke Wasser aus der Flasche.",
+"kanji": ["瓶", "水"],
+"level": 5,
+"tooltip": ["びん", "みず"]
+},
+{
+"japanese": "＿＿に＿＿を着ます。",
+"german": "Ich trage einen Hut bei Sonnenschein.",
+"kanji": ["日", "帽子"],
+"level": 5,
+"tooltip": ["ひ", "ぼうし"]
+},
+{
+"japanese": "＿＿で＿＿を食べます。",
+"german": "Ich esse Reis zum Abendessen.",
+"kanji": ["夕食", "米"],
+"level": 5,
+"tooltip": ["ゆうしょく", "こめ"]
+},
+{
+"japanese": "＿＿に＿＿があります。",
+"german": "Es gibt einen Bahnhof in der Stadt.",
+"kanji": ["町", "駅"],
+"level": 5,
+"tooltip": ["まち", "えき"]
+},
+{
+"japanese": "＿＿で＿＿を見ます。",
+"german": "Ich sehe Blumen im Garten.",
+"kanji": ["庭", "花"],
+"level": 5,
+"tooltip": ["にわ", "はな"]
+},
+{
+"japanese": "＿＿に＿＿を入れます。",
+"german": "Ich lege das Buch in die Tasche.",
+"kanji": ["鞄", "本"],
+"level": 5,
+"tooltip": ["かばん", "ほん"]
+},
+{
+"japanese": "＿＿で＿＿をします。",
+"german": "Ich mache Fotos im Park.",
+"kanji": ["公園", "写真"],
+"level": 5,
+"tooltip": ["こうえん", "しゃしん"]
+},
+{
+"japanese": "＿＿に＿＿があります。",
+"german": "Es gibt einen Stift in der Schachtel.",
+"kanji": ["箱", "鉛筆"],
+"level": 5,
+"tooltip": ["はこ", "えんぴつ"]
+},
+{
+"japanese": "＿＿で＿＿を聞きます。",
+"german": "Ich höre Vögel im Wald.",
+"kanji": ["森", "鳥"],
+"level": 5,
+"tooltip": ["もり", "とり"]
+},
+{
+"japanese": "＿＿に＿＿を置きます。",
+"german": "Ich stelle die Vase auf den Tisch.",
+"kanji": ["机", "花瓶"],
+"level": 5,
+"tooltip": ["つくえ", "かびん"]
+},
+{
+"japanese": "＿＿で＿＿を見ます。",
+"german": "Ich sehe den Mond am Himmel.",
+"kanji": ["空", "月"],
+"level": 5,
+"tooltip": ["そら", "つき"]
+},
+{
+"japanese": "＿＿に＿＿を書きます。",
+"german": "Ich schreibe eine Geschichte in mein Tagebuch.",
+"kanji": ["日記", "物語"],
+"level": 5,
+"tooltip": ["にっき", "ものがたり"]
+},
+{
+"japanese": "＿＿で＿＿をします。",
+"german": "Ich mache Experimente im Labor.",
+"kanji": ["実験室", "実験"],
+"level": 5,
+"tooltip": ["じっけんしつ", "じっけん"]
+},
+{
+"japanese": "＿＿に＿＿があります。",
+"german": "Es gibt einen See in den Bergen.",
+"kanji": ["山", "湖"],
+"level": 5,
+"tooltip": ["やま", "みずうみ"]
+},
+{
+"japanese": "＿＿で＿＿を飲みます。",
+"german": "Ich trinke Sake im Restaurant.",
+"kanji": ["料理店", "酒"],
+"level": 5,
+"tooltip": ["りょうりてん", "さけ"]
+},
+{
+"japanese": "＿＿に＿＿を着ます。",
+"german": "Ich trage einen Schal im Herbst.",
+"kanji": ["秋", "マフラー"],
+"level": 5,
+"tooltip": ["あき", "まふらー"]
+}
+]
